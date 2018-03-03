@@ -2,7 +2,14 @@ import React from 'react';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
 
 
-class MyMovies extends React.Component {
+class MyMovies extends React.Component<ScreenProps<>> {
+
+  // this.props.navigator.push({
+  //   screen: 'project.MyMovies',
+  //   title: 'Pushed Screen'
+  // });
+
+
   render() {
     return (
       <View style = {styles.container}>

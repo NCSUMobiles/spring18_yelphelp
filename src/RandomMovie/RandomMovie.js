@@ -1,8 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Text, ScrollView, Button} from 'react-native';
 
-
-class LandingPage extends React.Component<ScreenProps<>> {
+class RandomMovie extends React.Component<ScreenProps<>> {
 
   goToMyMovies() {
       this.props.navigation.navigate("MyMovies");
@@ -27,10 +26,10 @@ class LandingPage extends React.Component<ScreenProps<>> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#00b894',
+    backgroundColor: '#fab1a0',
     alignItems: 'center',
     justifyContent: 'center',
   },
 });
 
-export default LandingPage;
+export default RandomMovie;
