@@ -1,23 +1,33 @@
 import React from 'react';
 import {StyleSheet, View, Text, ScrollView, Button, SectionList, Platform, Alert} from 'react-native';
-// import {Business} from 'business.js';
 
 //working
-// class Business {
-//   constructor(){
-//     this.id = 1;
-//   }
-// }
+class Business {
+  constructor(){
+    this.id = 1;
+    this.name = "Dustin";
+    this.image_url = "http://www.google.com";
+    this.is_closed = false;
+    this.url = "http://www.google.com";
+    this.review_count = 1;
+    this.categories = ["Dustin"];
+    this.rating = "$$";
+    this.coordinates = ["12", "23"];
+    this.transactions = 321;
+    this.price = "$$";
+    this.location = "Raleigh";
+    this.phone = "123456789";
+    this.display_phone = "(123)-456-7890";
+    this.distance = 321.43;
+  }
+}
 
 class RandomPlace extends React.Component<ScreenProps<>> {
   constructor(props){
     super(props);
-    // this.business = new Business("molinari-delicatessen-san-francisco", "Molinari Delicatessen", "https://s3-media1.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg", false, "https://www.yelp.com/biz/molinari-delicatessen-san-francisco?adjust_creative=7QYPDljoTDYcnSWzBkTvEQ&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=7QYPDljoTDYcnSWzBkTvEQ", 967, {"alias": "delis","title": "Delis"},
-    //               4.5, {"latitude": 37.79838,"longitude": -122.40782 }, ["pickup","delivery"], "$$", "address", "+14154212337", "(415) 421-2337", 1455.895063529066);
-    // this.business = new Business();
-    
-    // var asdf = new Business();
-    // console.log(asdf.id);
+
+    var asdf = new Business();
+    console.log(asdf.id);
   }
 
   GetSectionListItem=(item)=>{
