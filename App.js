@@ -5,7 +5,7 @@ import {StackNavigator, DrawerNavigator, TabNavigator} from "react-navigation";
 
 import LandingPage from './src/LandingPage/LandingPage.js';
 import MyMovies from './src/MyMovies/MyMovies.js';
-import RandomMovie from './src/RandomMovie/RandomMovie.js';
+import RandomPlace from './src/RandomPlace/RandomPlace.js';
 
 
 export default class App extends React.Component {
@@ -35,12 +35,16 @@ const TabBarOptions = {
 }
 
 const AppNavigator = TabNavigator({
+    RandomPlace: { screen: RandomPlace,
+                  navigationOptions: {
+                    title: "Randomizer"
+                  }},
     LandingPage: { screen: LandingPage,
                     navigationOptions: {
                       title: "Landing Page"
                     }},
     MyMovies: { screen: MyMovies },
-    RandomMovie: { screen: RandomMovie },
+
 
 }, TabBarOptions);
 
