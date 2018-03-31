@@ -4,9 +4,9 @@ import {StyleSheet, View, Text, ScrollView, Button} from 'react-native';
 
 class LandingPage extends React.Component<ScreenProps<>> {
 
-  goToMyMovies() {
+/*   goToMyMovies() {
       this.props.navigation.navigate("MyMovies");
-  }
+  } */
 
 
   render() {
@@ -14,7 +14,7 @@ class LandingPage extends React.Component<ScreenProps<>> {
       <View style = {styles.container}>
         <Text>Landing Page</Text>
         <Button
-            onPress={this.goToMyMovies}
+            onPress={() => this.props.navigation.navigate('MyMovies')}
             title="my Movies"
             color= "#e84393"
             accessibilityLabel="Learn more about this purple button"

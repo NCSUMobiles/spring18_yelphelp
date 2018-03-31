@@ -23,6 +23,12 @@ const StackNavigatorOptions = {
     }
 };
 
+const Pages = StackNavigator({
+	LandingPage:{screen:LandingPage},
+	MyMovies:{screen:MyMovies},
+	RandomMovie:{screen:RandomMovie}
+})
+
 const TabBarOptions = {
   tabBarPosition: 'bottom',
   lazyLoad: true,
@@ -39,3 +45,4 @@ const AppNavigator = TabNavigator({
 }, TabBarOptions);
 
 export {AppNavigator};
+export {Pages};
