@@ -1,18 +1,18 @@
 import React from 'react';
-import {StyleSheet, View, Text, ScrollView, Button, SectionList, Platform, Alert} from 'react-native';
+import {StyleSheet, View, Text, ScrollView, Button, SectionList, Platform, Alert, Image, Linking, TouchableOpacity} from 'react-native';
 
 //working
 class Business {
   constructor(){
     this.id = 1;
-    this.name = "Dustin";
-    this.image_url = "http://www.google.com";
+    this.name = "Dustin Business";
+    this.image_url = "https://facebook.github.io/react-native/docs/assets/favicon.png";
     this.is_closed = false;
-    this.url = "http://www.google.com";
+    this.url = "https://www.pizzahut.com/";
     this.review_count = 1;
     this.categories = ["Dustin"];
-    this.rating = "$$";
-    this.coordinates = ["12", "23"];
+    this.rating = "**";
+    this.coordinates = ["35.784915", "-78.690439"];
     this.transactions = 321;
     this.price = "$$";
     this.location = "Raleigh";
@@ -25,9 +25,25 @@ class Business {
 class RandomPlace extends React.Component<ScreenProps<>> {
   constructor(props){
     super(props);
+  }
 
-    var asdf = new Business();
-    console.log(asdf.id);
+  // This method will open up the default navigation app with directions.
+  _callShowDirections(){
+    const startPoint = {
+      longitude: -8.945406,
+      latitude: 38.575078
+    }
+
+    const endPoint = {
+      longitude: 35.784915,
+      latitude: -78.690439
+    }
+
+		const transportPlan = 'w';
+
+    OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
+      console.log(res)
+    });
   }
 
   GetSectionListItem=(item)=>{
@@ -40,19 +56,46 @@ class RandomPlace extends React.Component<ScreenProps<>> {
     var B = ['Banana', 'Blackberry', 'Blackcurrant', 'Blueberry', 'Boysenberry'] ;
     var C = ['Cherry', 'Coconut'] ;
 
+    var testBusiness = new Business();
+
 
     return (
-      <View style={{ marginTop : 24}}>
+      <View style={{ marginTop : 24, backgroundColor: '#dfe6e9'}}>
       <SectionList
 
           sections={[
-            { title: 'Fruits Name From A', data: A },
-            { title: 'Fruits Name From B', data: B },
-            { title: 'Fruits Name From C', data: C },
+            {title: "RESULTS", data: [testBusiness, testBusiness, testBusiness, testBusiness, testBusiness]}
+            // { title: 'Fruits Name From A', data: A },
+            // { title: 'Fruits Name From B', data: B },
+            // { title: 'Fruits Name From C', data: C },
           ]}
 
           renderSectionHeader={ ({section}) => <Text style={styles.SectionHeaderStyle}> { section.title } </Text> }
-          renderItem={ ({item}) => <Text style={styles.SectionListItemStyle} onPress={this.GetSectionListItem.bind(this, item)}> { item } </Text> }
+          renderItem={ ({item}) =>
+            <View style={styles.SectionListItemStyle}>
+              <View>
+                <Image
+                  style={{width: 100, height: 100}}
+                  source={{uri: item.image_url}}
+                />
+              </View>
+              <View>
+                <Text  onPress={this.GetSectionListItem.bind(this, item)}> { item.name } </Text>
+                <Text> Rating: { item.rating } </Text>
+                <Text> Price: {item.price } </Text>
+                <Text onPress={() => Linking.openURL(item.url)}> Link </Text>
+                <Text> {item.display_phone} </Text>
+              </View>
+              <View>
+                <Image
+                  style={{width: 100, height: 100}}
+                  source={require('./img/directions.png')}
+                />
+              </View>
+
+
+            </View>
+             }
           keyExtractor={ (item, index) => index }
 
         />
@@ -77,10 +120,11 @@ const styles = StyleSheet.create({
   },
 
   SectionListItemStyle:{
-    fontSize : 15,
     padding: 5,
-    color: '#000',
-    backgroundColor : '#F5F5F5'
+    margin: 5,
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor : '#FFF',
   }
 });
 
