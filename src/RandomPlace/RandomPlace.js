@@ -45,7 +45,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
     OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
       console.log(res)
     });
-  // const yelpKey = 'VEcz4Kbd8TR68oFnT4_mdnWjRL8J5qjeN0bKCMEIPZuODihSHM_9_v-5CCJGm_QM_-kO4hx9DS9u5_5UByUATrgquPE-SeFr6VvjdMhLapg4P1jWA5Gm-gp42U-gWnYx';
+  }
 
 
   state = {
@@ -75,6 +75,8 @@ class RandomPlace extends React.Component<ScreenProps<>> {
     var lngstr = "longitude=" + String(lng) + "&"
 
     console.log('test');
+    var yelpKey = 'VEcz4Kbd8TR68oFnT4_mdnWjRL8J5qjeN0bKCMEIPZuODihSHM_9_v-5CCJGm_QM_-kO4hx9DS9u5_5UByUATrgquPE-SeFr6VvjdMhLapg4P1jWA5Gm-gp42U-gWnYx';
+
 
     fetch('https://api.yelp.com/v3/businesses/search?term=food&latitude=35.7796&longitude=-78.6382&limit=50', {
       method: 'GET',
