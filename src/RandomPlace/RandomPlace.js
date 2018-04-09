@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, Text, ScrollView, Button, SectionList, Platform, Alert, Image, Linking, TouchableOpacity} from 'react-native';
+import { OpenMapDirections } from 'react-native-navigation-directions';
 
 //working
 class Business {
