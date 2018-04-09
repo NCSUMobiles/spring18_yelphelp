@@ -13,7 +13,7 @@ class MyMovies extends React.Component<ScreenProps<>> {
   render() {
     return (
       <View style = {styles.container}>
-        <Text>My Movies</Text>
+        <Text>My Restaurants</Text>
       </View>
     );
   }
@@ -22,7 +22,7 @@ class MyMovies extends React.Component<ScreenProps<>> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#a29bfe',
+    backgroundColor: '#ff0000',
     alignItems: 'center',
     justifyContent: 'center',
   },

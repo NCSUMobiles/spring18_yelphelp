@@ -16,6 +16,8 @@ export default class App extends React.Component {
   }
 }
 
+
+
 const StackNavigatorOptions = {
     // headerMode: "none",
     cardStyle: {
@@ -26,24 +28,36 @@ const StackNavigatorOptions = {
 const Pages = StackNavigator({
 	LandingPage:{screen:LandingPage},
 	MyMovies:{screen:MyMovies},
-	RandomMovie:{screen:RandomMovie}
+	RandomPlace:{screen:RandomPlace}
 })
 
 const TabBarOptions = {
   tabBarPosition: 'bottom',
   lazyLoad: true,
+  tabBarOptions: {
+		activeTintColor: '#f75d59',
+		labelStyle: {
+			fontSize: 12,
+		},
+		style: {
+			backgroundColor: 'black',
+		},
+   }
 }
 
 const AppNavigator = TabNavigator({
+	LandingPage: { screen: LandingPage,
+                    navigationOptions: {
+                      title: "Landing Page"
+                    }},
     RandomPlace: { screen: RandomPlace,
                   navigationOptions: {
                     title: "Randomizer"
                   }},
-    LandingPage: { screen: LandingPage,
-                    navigationOptions: {
-                      title: "Landing Page"
-                    }},
-    MyMovies: { screen: MyMovies },
+    MyMovies: { screen: MyMovies, 
+					navigationOptions: {
+					  title: "My Restaurants",
+					}},
 
 
 }, TabBarOptions);
