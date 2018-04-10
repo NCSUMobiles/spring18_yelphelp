@@ -1105,6 +1105,10 @@ beeper@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/beeper/-/beeper-1.1.1.tgz#e6d5ea8c5dad001304a70b22638447f69cb2f809"
 
+between-range@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/between-range/-/between-range-1.0.0.tgz#aab7c2f46ef87a3b4ba9a7611724d9b813e7e149"
+
 big-integer@^1.6.7:
   version "1.6.26"
   resolved "https://registry.yarnpkg.com/big-integer/-/big-integer-1.6.26.tgz#3af1672fa62daf2d5ecafacf6e5aa0d25e02c1c8"
@@ -3046,6 +3050,12 @@ is-utf8@^0.2.0:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/is-utf8/-/is-utf8-0.2.1.tgz#4b0da1442104d1b336340e80797e865cf39f7d72"
 
+is-valid-coordinates@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/is-valid-coordinates/-/is-valid-coordinates-1.0.0.tgz#ac26e968be78f73903e26fbe990808e8a5015310"
+  dependencies:
+    between-range "^1.0.0"
+
 isarray@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-0.0.1.tgz#8a18acfca9a8f4177e09abfc6038939b05d1eedf"
@@ -4966,6 +4976,12 @@ react-native-keyboard-aware-scroll-view@0.4.2:
 react-native-maps@0.19.0:
   version "0.19.0"
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.19.0.tgz#ce94fad1cf360e335cb4338a68c95f791e869074"
+
+react-native-navigation-directions@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-navigation-directions/-/react-native-navigation-directions-1.0.1.tgz#e23bd1386b56022effd107b2e585e66df9871582"
+  dependencies:
+    is-valid-coordinates "1.0.0"
 
 react-native-navigation@^1.1.393:
   version "1.1.393"

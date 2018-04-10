@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import {StackNavigator, DrawerNavigator, TabNavigator} from "react-navigation";
+import { StackNavigator, DrawerNavigator, TabNavigator } from "react-navigation";
 
 import LandingPage from './src/LandingPage/LandingPage.js';
 import MyMovies from './src/MyMovies/MyMovies.js';
