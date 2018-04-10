@@ -4,7 +4,7 @@ import { Navigation } from 'react-native-navigation';
 import { StackNavigator, DrawerNavigator, TabNavigator } from "react-navigation";
 
 import LandingPage from './src/LandingPage/LandingPage.js';
-import MyMovies from './src/MyMovies/MyMovies.js';
+import MySuggestions from './src/MySuggestions/MySuggestions.js';
 import RandomPlace from './src/RandomPlace/RandomPlace.js';
 
 
@@ -27,7 +27,7 @@ const StackNavigatorOptions = {
 
 const Pages = StackNavigator({
 	LandingPage:{screen:LandingPage},
-	MyMovies:{screen:MyMovies},
+	MySuggestions:{screen:MySuggestions},
 	RandomPlace:{screen:RandomPlace}
 })
 
@@ -54,9 +54,9 @@ const AppNavigator = TabNavigator({
                   navigationOptions: {
                     title: "Randomizer"
                   }},
-    MyMovies: { screen: MyMovies, 
+    MySuggestions: { screen: MySuggestions,
 					navigationOptions: {
-					  title: "My Restaurants",
+					  title: "My Suggestions",
 					}},
 
 
