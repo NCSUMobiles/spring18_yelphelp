@@ -4,7 +4,7 @@ import { Navigation } from 'react-native-navigation';
 import { StackNavigator, DrawerNavigator, TabNavigator } from "react-navigation";
 
 import LandingPage from './src/LandingPage/LandingPage.js';
-import MyMovies from './src/MyMovies/MyMovies.js';
+import MySuggestions from './src/MySuggestions/MySuggestions.js';
 import RandomPlace from './src/RandomPlace/RandomPlace.js';
 
 
@@ -16,6 +16,8 @@ export default class App extends React.Component {
   }
 }
 
+
+
 const StackNavigatorOptions = {
     // headerMode: "none",
     cardStyle: {
@@ -23,23 +25,42 @@ const StackNavigatorOptions = {
     }
 };
 
+const Pages = StackNavigator({
+	LandingPage:{screen:LandingPage},
+	MySuggestions:{screen:MySuggestions},
+	RandomPlace:{screen:RandomPlace}
+})
+
 const TabBarOptions = {
   tabBarPosition: 'bottom',
   lazyLoad: true,
+  tabBarOptions: {
+		activeTintColor: '#f75d59',
+		labelStyle: {
+			fontSize: 12,
+		},
+		style: {
+			backgroundColor: 'black',
+		},
+   }
 }
 
 const AppNavigator = TabNavigator({
+	LandingPage: { screen: LandingPage,
+                    navigationOptions: {
+                      title: "Landing Page"
+                    }},
     RandomPlace: { screen: RandomPlace,
                   navigationOptions: {
                     title: "Randomizer"
                   }},
-    LandingPage: { screen: LandingPage,
-                    navigationOptions: {
-                      title: "Landing Page"
-                    }},
-    MyMovies: { screen: MyMovies },
+    MySuggestions: { screen: MySuggestions,
+					navigationOptions: {
+					  title: "My Suggestions",
+					}},
 
 
 }, TabBarOptions);
 
 export {AppNavigator};
+export {Pages};
