@@ -7,7 +7,7 @@ class Business {
   constructor(){
     this.id = 1;
     this.name = "Dustin Business";
-    this.image_url = "https://facebook.github.io/react-native/docs/assets/favicon.png";
+    this.image_url = "https://s3-media1.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg";
     this.is_closed = false;
     this.url = "https://www.pizzahut.com/";
     this.review_count = 1;
@@ -58,15 +58,12 @@ class MySuggestions extends React.Component<ScreenProps<>> {
     navigator.geolocation.getCurrentPosition(
 
       (position) => {
-
         this.setState({position});
-
       },
 
       (error) => alert(error),
-
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-
+      // fetchData();
   )};
 
   fetchData() {
@@ -111,7 +108,7 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 
 
     return (
-      <View style={{ marginTop : 24, backgroundColor: '#dfe6e9'}}>
+      <View style={styles.listViewContainer}>
       <SectionList
 
           sections={[
@@ -139,7 +136,7 @@ class MySuggestions extends React.Component<ScreenProps<>> {
               </View>
               <View>
                 <Image
-                  style={{width: 100, height: 100}}
+                  style={{width: 50, height: 50}}
                   source={require('./img/directions.png')}
                 />
               </View>
@@ -156,15 +153,21 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 }
 
 const styles = StyleSheet.create({
+  listViewContainer: {
+    marginTop : 24,
+    backgroundColor: '#dfe6e9',
+    backgroundColor : '#ff0000',
+  },
+
   container: {
     flex: 1,
     backgroundColor: '#bdc3c7',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  SectionHeaderStyle:{
 
-  backgroundColor : '#CDDC39',
+  SectionHeaderStyle:{
+    backgroundColor : '#CDDC39',
     fontSize : 20,
     padding: 5,
     color: '#fff',
@@ -176,7 +179,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     backgroundColor : '#FFF',
-  }
+  },
 });
 
 export default MySuggestions;
