@@ -6,7 +6,7 @@ import { OpenMapDirections } from 'react-native-navigation-directions';
 class Business {
   constructor(){
     this.id = 1;
-    this.name = "Dustin Business";
+    this.name = "Justin Business";
     this.image_url = "https://facebook.github.io/react-native/docs/assets/favicon.png";
     this.is_closed = false;
     this.url = "https://www.pizzahut.com/";
@@ -30,18 +30,18 @@ class RandomPlace extends React.Component<ScreenProps<>> {
   }
 
   // This method will open up the default navigation app with directions.
-  _callShowDirections(){
+  _callShowDirections = () => {
     const startPoint = {
-      longitude: -8.945406,
-      latitude: 38.575078
+      longitude: -78.682095,
+      latitude: 35.784663
     }
 
     const endPoint = {
-      longitude: 35.784915,
-      latitude: -78.690439
+      longitude: -118.445181,
+      latitude: 34.068921
     }
 
-		const transportPlan = 'w';
+		const transportPlan = 'd';
 
     OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
       console.log(res)
@@ -135,13 +135,15 @@ class RandomPlace extends React.Component<ScreenProps<>> {
                 <Text> Rating: { item.rating } </Text>
                 <Text> Price: {item.price } </Text>
                 <Text onPress={() => Linking.openURL(item.url)}> Link </Text>
-                <Text> {item.display_phone} </Text>
+                <Text onPress={() => "callNumber(item.display_phone)"}> {item.display_phone} </Text>
               </View>
               <View>
-                <Image
+                <TouchableOpacity activeOpacity = {.5} onPress = {this._callShowDirections}>
+                  <Image
                   style={{width: 100, height: 100}}
                   source={require('./img/directions.png')}
-                />
+                  />
+                </TouchableOpacity>
               </View>
 
 
