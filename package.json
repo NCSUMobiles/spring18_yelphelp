@@ -22,6 +22,7 @@
     "color": "^3.0.0",
     "expo": "^25.0.0",
     "native-base": "^2.3.9",
+    "npm": "^5.8.0",
     "react": "16.2.0",
     "react-native": "0.52.0",
     "react-native-navigation": "^1.1.393",
