@@ -11,10 +11,10 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 		super()
 		this.state = {
 			spinValue: new Animated.Value(0)
-			responseJson: []
-			price: -1
-			radius: -1
-			term: ""
+			// responseJson: []
+			// price: -1
+			// radius: -1
+			// term: ""
 		}
 	}
 
@@ -73,7 +73,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 	if (this.state.radius != -1) {
 		apiCall += "&radius=" + String(this.state.radius);
 	}
-	
+
 	if (this.state.type != "") {
 		apiCall += "&term=" + this.state.type;
 	}
@@ -81,16 +81,16 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 		if (this.state.price == 1) {
 			apiCall += "&price=1";
 		} else if (this.state.price == 2) {
-			apiCall += "&price=1, 2";	
+			apiCall += "&price=1, 2";
 		} else if (this.state.price == 3) {
 			apiCall += "&price=1, 2, 3";
 		} else if (this.state.price == 4) {
 			apiCall += "&price=1, 2, 3, 4";
 		}
 	}
-	
+
 	apiCall += "&limit=50";
-	
+
     console.log('test');
     var yelpKey = 'VEcz4Kbd8TR68oFnT4_mdnWjRL8J5qjeN0bKCMEIPZuODihSHM_9_v-5CCJGm_QM_-kO4hx9DS9u5_5UByUATrgquPE-SeFr6VvjdMhLapg4P1jWA5Gm-gp42U-gWnYx';
 

@@ -21,6 +21,10 @@ class Business {
     this.display_phone = "(123)-456-7890";
     this.distance = 321.43;
   }
+  constructor(JSON jsonBusiness){
+    this.id = jsonBusiness.id;
+
+  }
 }
 
 
@@ -30,18 +34,17 @@ class MySuggestions extends React.Component<ScreenProps<>> {
   }
 
   // This method will open up the default navigation app with directions.
-  _callShowDirections(){
+  _callShowDirections = () => {
     const startPoint = {
-      longitude: -8.945406,
-      latitude: 38.575078
+      longitude: -78.682095,
+      latitude: 35.784663
     }
-
     const endPoint = {
-      longitude: 35.784915,
-      latitude: -78.690439
+      longitude: -118.445181,
+      latitude: 34.068921
     }
 
-		const transportPlan = 'w';
+		const transportPlan = 'd';
 
     OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
       console.log(res)
@@ -64,6 +67,8 @@ class MySuggestions extends React.Component<ScreenProps<>> {
       (error) => alert(error),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
       // fetchData();
+
+      businessArray = getDataFromDisk()
   )};
 
   fetchData() {
@@ -100,12 +105,7 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 
   render() {
 
-    var A = ['Apple', 'Apricot', 'Avocado','A', 'A', 'A', 'A', 'A', 'A'] ;
-    var B = ['Banana', 'Blackberry', 'Blackcurrant', 'Blueberry', 'Boysenberry'] ;
-    var C = ['Cherry', 'Coconut'] ;
-
     var testBusiness = new Business();
-
 
     return (
       <View style={styles.listViewContainer}>
@@ -113,35 +113,39 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 
           sections={[
             {title: "RESULTS", data: [testBusiness, testBusiness, testBusiness, testBusiness, testBusiness]}
-            // { title: 'Fruits Name From A', data: A },
-            // { title: 'Fruits Name From B', data: B },
-            // { title: 'Fruits Name From C', data: C },
+            // {title: "RESULTS", data: [testBusiness, testBusiness, testBusiness]}
           ]}
 
           renderSectionHeader={ ({section}) => <Text style={styles.SectionHeaderStyle}> { section.title } </Text> }
           renderItem={ ({item}) =>
             <View style={styles.SectionListItemStyle}>
-              <View>
-                <Image
-                  style={{width: 100, height: 100}}
-                  source={{uri: item.image_url}}
-                />
+              <View style={styles.CardHeader}>
+                <Text> { item.name } </Text>
               </View>
-              <View>
-                <Text  onPress={this.GetSectionListItem.bind(this, item)}> { item.name } </Text>
-                <Text> Rating: { item.rating } </Text>
-                <Text> Price: {item.price } </Text>
-                <Text onPress={() => Linking.openURL(item.url)}> Link </Text>
-                <Text> {item.display_phone} </Text>
-              </View>
-              <View>
-                <Image
-                  style={{width: 50, height: 50}}
-                  source={require('./img/directions.png')}
-                />
-              </View>
+              <View >
 
-
+                <View>
+                  <Image
+                    style={{width: 100, height: 100}}
+                    source={{uri: item.image_url}}
+                  />
+                </View>
+                <View>
+                  <Text  onPress={this.GetSectionListItem.bind(this, item)}> { item.name } </Text>
+                  <Text> Rating: { item.rating } </Text>
+                  <Text> Price: {item.price } </Text>
+                  <Text onPress={() => Linking.openURL(item.url)}> Link </Text>
+                  <Text> {item.display_phone} </Text>
+                </View>
+                <View>
+                  <TouchableOpacity activeOpacity = {.5} onPress = {this._callShowDirections}>
+                    <Image
+                    style={{width: 100, height: 100}}
+                    source={require('./img/directions.png')}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
              }
           keyExtractor={ (item, index) => index }
@@ -180,6 +184,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor : '#FFF',
   },
+  CardHeader:{
+    backgroundColor: 'blue',
+  }
 });
 
 export default MySuggestions;
