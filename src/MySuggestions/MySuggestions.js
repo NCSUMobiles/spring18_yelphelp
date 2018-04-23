@@ -120,46 +120,52 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 
       <View style={styles.listViewContainer}>
       <SectionList
+        sections={[
+          {title: "MY SUGGESTIONS", data: [testBusiness, testBusiness, testBusiness, testBusiness, testBusiness]}
+          // {title: "RESULTS", data: [testBusiness, testBusiness, testBusiness]}
+        ]}
 
-          sections={[
-            {title: "RESULTS", data: [testBusiness, testBusiness, testBusiness, testBusiness, testBusiness]}
-            // {title: "RESULTS", data: [testBusiness, testBusiness, testBusiness]}
-          ]}
-
-          renderSectionHeader={ ({section}) => <Text style={styles.SectionHeaderStyle}> { section.title } </Text> }
-          renderItem={ ({item}) =>
-            <View>
-              <View style={styles.CardHeader}>
-                <Text style={styles.headerText}> { item.name } </Text>
+        renderSectionHeader={ ({section}) => <Text style={styles.SectionHeaderStyle}> { section.title } </Text> }
+        renderItem={ ({item}) =>
+          <View>
+            <View style={styles.CardHeader}>
+              <Text style={styles.headerText}> { item.name } </Text>
+            </View>
+            <View style={styles.SectionListItemStyle}>
+              <View>
+                <Image
+                  style={{width: 130, height: 130}}
+                  source={{uri: item.image_url}}
+                />
               </View>
-              <View style={styles.SectionListItemStyle}>
-                <View>
-                  <Image
-                    style={{width: 130, height: 130}}
-                    source={{uri: item.image_url}}
-                  />
-                </View>
-                <View>
-                  <Text> Rating: { item.rating } </Text>
-                  <Text> Price: {item.price } </Text>
-                  <Text onPress={() => Linking.openURL(item.url)}> Link </Text>
-                  <Text> {item.display_phone} </Text>
-                </View>
+              <View>
+                <Text> Rating: { item.rating } </Text>
+                <Text> Price: {item.price } </Text>
+                <Text onPress={() => Linking.openURL(item.url)}> Link </Text>
+                <Text> {item.display_phone} </Text>
               </View>
+            </View>
 
-              <View style={styles.SectionListButtonStyle}>
+            <View style={styles.SectionListButtonStyle}>
+              <View style={styles.cardButtonStyle}>
                 <TouchableOpacity activeOpacity = {.5} onPress = {this._callShowDirections} >
                   <Image
                   style={{width: 60, height: 60}}
                   source={require('./img/directions.png')}
                   />
                 </TouchableOpacity>
+              </View>
+
+              <View style={styles.cardButtonStyle}>
                 <TouchableOpacity activeOpacity = {.5} onPress = {this._makeCall}>
                   <Image
                   style={{width: 60, height: 60}}
                   source={require('./img/phone.png')}
                   />
                 </TouchableOpacity>
+              </View>
+
+              <View style={styles.cardButtonStyle}>
                 <TouchableOpacity activeOpacity = {.5} >
                   <Image
                   style={{width: 60, height: 60}}
@@ -168,10 +174,10 @@ class MySuggestions extends React.Component<ScreenProps<>> {
                 </TouchableOpacity>
               </View>
             </View>
-
-          }
-          keyExtractor={ (item, index) => index }
-        />
+          </View>
+        }
+        keyExtractor={ (item, index) => index }
+      />
       </View>
     );
   }
@@ -231,6 +237,10 @@ const styles = StyleSheet.create({
     backgroundColor : '#FFF',
     justifyContent: 'center',
   },
+
+  cardButtonStyle: {
+    margin: 15,
+  }
 
 });
 
