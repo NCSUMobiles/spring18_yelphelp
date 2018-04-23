@@ -9,6 +9,10 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 		super()
 		this.state = {
 			spinValue: new Animated.Value(0)
+			// responseJson: []
+			// price: -1
+			// radius: -1
+			// term: ""
 		}
 	}
 
@@ -32,16 +36,39 @@ class RandomPlace extends React.Component<ScreenProps<>> {
   )};
 
   fetchData() {
-    // var lat = this.state.position.coords.latitude
-    // var lng = this.state.position.coords.longitude
-    // var latstr = "latitude=" + String(lat) + "&"
-    // var lngstr = "longitude=" + String(lng) + "&"
+	var apiCall = "https://api.yelp.com/v3/businesses/search?";
+    var lat = this.state.position.coords.latitude;
+    var lng = this.state.position.coords.longitude;
+    apiCall += "latitude=" + String(lat);
+    apiCall += "&longitude=" + String(lng);
+
+	//Radius
+	if (this.state.radius != -1) {
+		apiCall += "&radius=" + String(this.state.radius);
+	}
+
+	if (this.state.type != "") {
+		apiCall += "&term=" + this.state.type;
+	}
+	if (this.state.price != -1) {
+		if (this.state.price == 1) {
+			apiCall += "&price=1";
+		} else if (this.state.price == 2) {
+			apiCall += "&price=1, 2";
+		} else if (this.state.price == 3) {
+			apiCall += "&price=1, 2, 3";
+		} else if (this.state.price == 4) {
+			apiCall += "&price=1, 2, 3, 4";
+		}
+	}
+
+	apiCall += "&limit=50";
 
     console.log('test');
     var yelpKey = 'VEcz4Kbd8TR68oFnT4_mdnWjRL8J5qjeN0bKCMEIPZuODihSHM_9_v-5CCJGm_QM_-kO4hx9DS9u5_5UByUATrgquPE-SeFr6VvjdMhLapg4P1jWA5Gm-gp42U-gWnYx';
 
 
-    fetch('https://api.yelp.com/v3/businesses/search?term=food&latitude=35.7796&longitude=-78.6382&limit=50', {
+    fetch(apiCall, {
       method: 'GET',
       headers: {
         Authorization: 'Bearer ' + yelpKey,
@@ -50,7 +77,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // this.state.queryResult = responseJson.businesses;
+        this.state.responseJson = responseJson.businesses;
         console.log(responseJson.businesses);
 
       })

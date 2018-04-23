@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Text, ScrollView, Button, SectionList, Platform, Alert, Image, Linking, TouchableOpacity} from 'react-native';
 import { OpenMapDirections } from 'react-native-navigation-directions';
+import call from 'react-native-phone-call'
 
 //working
 class Business {
@@ -21,6 +22,9 @@ class Business {
     this.display_phone = "(123)-456-7890";
     this.distance = 321.43;
   }
+  // constructor(JSON jsonBusiness){
+  //   this.id = jsonBusiness.id;
+  // }
 }
 
 
@@ -29,15 +33,37 @@ class MySuggestions extends React.Component<ScreenProps<>> {
     super(props);
   }
 
-  // This method will open up the default navigation app with directions.
-  _callShowDirections = () => {
-    const startPoint = {
-      longitude: -78.682095,
-      latitude: 35.784663
+
+  makeCall(){
+    const args = {
+      number: '9093900003', // String value with the number to call
+      prompt: false // Optional boolean property. Determines if the user should be prompt prior to the call
     }
+    call(args).catch(console.error)
+  }
+
+  // This method will open up the default navigation app with directions.
+  _callShowDirections = (businessLocations) => {
+
+    navigator.geolocation.getCurrentPosition(
+
+      (position) => {
+        this.setState({position});
+      },
+
+      (error) => alert(error),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+
+    );
+
+    const startPoint = {
+      longitude: this.state.position.coords.longitude,
+      latitude: this.state.position.coords.latitude
+    }
+
     const endPoint = {
-      longitude: -118.445181,
-      latitude: 34.068921
+      longitude: parseFloat(businessLocations[1]) ,
+      latitude: parseFloat(businessLocations[0])
     }
 
 		const transportPlan = 'd';
@@ -63,6 +89,8 @@ class MySuggestions extends React.Component<ScreenProps<>> {
       (error) => alert(error),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
       // fetchData();
+
+      // businessArray = getDataFromDisk()
   )};
 
   fetchData() {
@@ -102,6 +130,7 @@ class MySuggestions extends React.Component<ScreenProps<>> {
     var testBusiness = new Business();
 
     return (
+
       <View style={styles.listViewContainer}>
       <SectionList
 
@@ -112,38 +141,49 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 
           renderSectionHeader={ ({section}) => <Text style={styles.SectionHeaderStyle}> { section.title } </Text> }
           renderItem={ ({item}) =>
-            <View style={styles.SectionListItemStyle}>
+            <View>
               <View style={styles.CardHeader}>
-                <Text> { item.name } </Text>
+                <Text style={styles.headerText}> { item.name } </Text>
               </View>
-              <View >
-
+              <View style={styles.SectionListItemStyle}>
                 <View>
                   <Image
-                    style={{width: 100, height: 100}}
+                    style={{width: 130, height: 130}}
                     source={{uri: item.image_url}}
                   />
                 </View>
                 <View>
-                  <Text  onPress={this.GetSectionListItem.bind(this, item)}> { item.name } </Text>
                   <Text> Rating: { item.rating } </Text>
                   <Text> Price: {item.price } </Text>
                   <Text onPress={() => Linking.openURL(item.url)}> Link </Text>
                   <Text> {item.display_phone} </Text>
                 </View>
-                <View>
-                  <TouchableOpacity activeOpacity = {.5} onPress = {this._callShowDirections}>
-                    <Image
-                    style={{width: 100, height: 100}}
-                    source={require('./img/directions.png')}
-                    />
-                  </TouchableOpacity>
-                </View>
+              </View>
+
+              <View style={styles.SectionListButtonStyle}>
+                <TouchableOpacity activeOpacity = {.5} onPress = {() => this._callShowDirections(item.coordinates)} >
+                  <Image
+                  style={{width: 60, height: 60}}
+                  source={require('./img/directions.png')}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity = {.5} onPress = {this._makeCall}>
+                  <Image
+                  style={{width: 60, height: 60}}
+                  source={require('./img/phone.png')}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity = {.5} >
+                  <Image
+                  style={{width: 60, height: 60}}
+                  source={require('./img/disk.png')}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
-             }
-          keyExtractor={ (item, index) => index }
 
+          }
+          keyExtractor={ (item, index) => index }
         />
       </View>
     );
@@ -153,8 +193,8 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 const styles = StyleSheet.create({
   listViewContainer: {
     marginTop : 24,
+    backgroundColor : '#636e72',
     backgroundColor: '#dfe6e9',
-    backgroundColor : '#ff0000',
   },
 
   container: {
@@ -165,22 +205,46 @@ const styles = StyleSheet.create({
   },
 
   SectionHeaderStyle:{
-    backgroundColor : '#CDDC39',
+    backgroundColor : '#d63031',
     fontSize : 20,
     padding: 5,
     color: '#fff',
+    fontWeight: 'bold',
   },
 
   SectionListItemStyle:{
     padding: 5,
-    margin: 5,
+    marginLeft: 5,
+    marginRight: 5,
     flex: 1,
     flexDirection: 'row',
     backgroundColor : '#FFF',
   },
+
   CardHeader:{
-    backgroundColor: 'blue',
-  }
+    backgroundColor: '#2d3436',
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop: 5,
+  },
+
+  headerText:{
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+
+  SectionListButtonStyle: {
+    padding: 5,
+    marginLeft: 5,
+    marginRight: 5,
+    marginBottom: 5,
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor : '#FFF',
+    justifyContent: 'center',
+  },
+
 });
 
 export default MySuggestions;
