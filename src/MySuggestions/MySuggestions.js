@@ -34,11 +34,13 @@ class MySuggestions extends React.Component<ScreenProps<>> {
   }
 
 
-  makeCall(){
+  _makeCall(businessPhone){
+
     const args = {
-      number: '9093900003', // String value with the number to call
-      prompt: false // Optional boolean property. Determines if the user should be prompt prior to the call
+      number: businessPhone, // String value with the number to call
+      prompt: true // Optional boolean property. Determines if the user should be prompt prior to the call
     }
+
     call(args).catch(console.error)
   }
 
@@ -167,7 +169,7 @@ class MySuggestions extends React.Component<ScreenProps<>> {
                   source={require('./img/directions.png')}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity activeOpacity = {.5} onPress = {this._makeCall}>
+                <TouchableOpacity activeOpacity = {.5} onPress = {() => this._makeCall(item.phone)}>
                   <Image
                   style={{width: 60, height: 60}}
                   source={require('./img/phone.png')}
