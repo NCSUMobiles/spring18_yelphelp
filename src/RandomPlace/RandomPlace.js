@@ -36,7 +36,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 			  price: -1,
 			  radius: -1,
 			  term: ""
-		  }
+		  };
 	}
 
 
@@ -70,8 +70,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
     }
 
   componentDidMount() {
-    console.log("mount");
-    // fetchData();
+    this.fetchData();
     navigator.geolocation.getCurrentPosition(
 
       (position) => {
@@ -125,13 +124,15 @@ class RandomPlace extends React.Component<ScreenProps<>> {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        this.state.responseJson = responseJson.businesses;
-        console.log(responseJson.businesses);
-        int rand = Math.floor(Math.random() * 50);
-        $scope.business = new Business(responseJson.businesses.businesses[rand]);
-        console.log(rand);
-        AsyncStorage.setItem('business', $scope.business);
-        console.log($scope.business);
+				console.log(responseJson.businesses);
+        // this.state.responseJson = responseJson.businesses;
+				// console.log(responseJson.businesses);
+				// int rand = 1;      //Math.floor(Math.random() * 50);
+				// console.log(responseJson.businesses[1]);
+        // $scope.business = new Business(responseJson.businesses.busines[rand]);
+        // console.log(rand);
+        // AsyncStorage.setItem('business', $scope.business);
+        // console.log($scope.business);
       })
       .catch((error) =>{
         console.error(error);
@@ -142,11 +143,11 @@ class RandomPlace extends React.Component<ScreenProps<>> {
   * Returns a random integer between min (inclusive) and max (inclusive)
   * Using Math.round() will give you a non-uniform distribution!
   */
-  function getRandomInt() {
-    var min = 0;
-    var max = 49;
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+  // function getRandomInt() {
+  //   var min = 0;
+  //   var max = 49;
+  //   return Math.floor(Math.random() * (max - min + 1)) + min;
+  // }
 
  	spin() {
 		this.state.spinValue.setValue(0);
