@@ -6,23 +6,46 @@ import { AsyncStorage } from 'react-native'
 
 
 class Business {
-  constructor(){
-    this.id = 1;
-    this.name = "Dustin Business";
-    this.image_url = "https://s3-media1.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg";
-    this.is_closed = false;
-    this.url = "https://www.pizzahut.com/";
-    this.review_count = 1;
-    this.categories = ["Dustin"];
-    this.rating = "**";
-    this.coordinates = ["35.784915", "-78.690439"];
-    this.transactions = 321;
-    this.price = "$$";
-    this.location = "Raleigh";
-    this.phone = "123456789";
-    this.display_phone = "(123)-456-7890";
-    this.distance = 321.43;
-  }
+  // constructor(){
+  //   this.id = 1;
+  //   this.name = "Dustin Business";
+  //   this.image_url = "https://s3-media1.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg";
+  //   this.is_closed = false;
+  //   this.url = "https://www.pizzahut.com/";
+  //   this.review_count = 1;
+  //   this.categories = ["Dustin"];
+  //   this.rating = "**";
+  //   this.coordinates = ["35.784915", "-78.690439"];
+  //   this.transactions = 321;
+  //   this.price = "$$";
+  //   this.location = "Raleigh";
+  //   this.phone = "123456789";
+  //   this.display_phone = "(123)-456-7890";
+  //   this.distance = 321.43;
+  // }
+
+	var businessKey = 'business';
+
+	constructor(biz){
+		this.id = 1;
+		this.name = biz.name;
+		this.image_url = "https://s3-media1.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg";
+		this.is_closed = false;
+		this.url = "https://www.pizzahut.com/";
+		this.review_count = 1;
+		this.categories = "Dustin";
+		this.rating = "**";
+		this.coordinates = "35.784915";
+		this.longitude =  "-78.690439";
+		this.transactions = 321;
+		this.price = "$$";
+		this.location = "Raleigh";
+		this.phone = "123456789";
+		this.display_phone = "(123)-456-7890";
+		this.distance = 321.43;
+	}
+
+
 }
 
 class RandomPlace extends React.Component<ScreenProps<>> {
@@ -35,7 +58,8 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 			  responseJson: [],
 			  price: -1,
 			  radius: -1,
-			  term: ""
+			  term: "mexican",
+				selectedBusiness: null
 		  };
 	}
 
@@ -70,7 +94,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
     }
 
   componentDidMount() {
-    this.fetchData();
+
     navigator.geolocation.getCurrentPosition(
 
       (position) => {
@@ -79,13 +103,24 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 
       (error) => alert(error),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+  	);
+		this.fetchData();
 
-  )};
+		var savedBusinesses = this.getSavedBusinesses();
+		console.log(savedBusinesses);
+	};
+
+	async getSavedBusinesses(){
+	 		return await AsyncStorage.getItem(businessKey);
+	}
 
   fetchData() {
-	var apiCall = "https://api.yelp.com/v3/businesses/search?";
-    var lat = this.state.position.coords.latitude;
-    var lng = this.state.position.coords.longitude;
+		var apiCall = "https://api.yelp.com/v3/businesses/search?";
+    // var lat = this.state.position.coords.latitude;
+    // var lng = this.state.position.coords.longitude;
+		var lat = 35.769;
+		var lng = -78.676;
+
     apiCall += "latitude=" + String(lat);
     apiCall += "&longitude=" + String(lng);
 
@@ -94,8 +129,8 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 		apiCall += "&radius=" + String(this.state.radius);
 	}
 
-	if (this.state.type != "") {
-		apiCall += "&term=" + this.state.type;
+	if (this.state.term != "") {
+		apiCall += "&term=" + this.state.term;
 	}
 	if (this.state.price != -1) {
 		if (this.state.price == 1) {
@@ -111,7 +146,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 
 	apiCall += "&limit=50";
 
-    console.log('test');
+    //console.log(apiCall);
     var yelpKey = 'VEcz4Kbd8TR68oFnT4_mdnWjRL8J5qjeN0bKCMEIPZuODihSHM_9_v-5CCJGm_QM_-kO4hx9DS9u5_5UByUATrgquPE-SeFr6VvjdMhLapg4P1jWA5Gm-gp42U-gWnYx';
 
 
@@ -124,15 +159,15 @@ class RandomPlace extends React.Component<ScreenProps<>> {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-				console.log(responseJson.businesses);
-        // this.state.responseJson = responseJson.businesses;
-				// console.log(responseJson.businesses);
-				// int rand = 1;      //Math.floor(Math.random() * 50);
 				// console.log(responseJson.businesses[1]);
-        // $scope.business = new Business(responseJson.businesses.busines[rand]);
-        // console.log(rand);
-        // AsyncStorage.setItem('business', $scope.business);
-        // console.log($scope.business);
+        this.state.responseJson = responseJson.businesses;
+				var rand = 1;      //Math.floor(Math.random() * 50);
+        this.state.selectedBusiness = new Business(responseJson.businesses[rand]);
+				var testString = JSON.stringify(responseJson.businesses[1]);
+				console.log(JSON.parse(testString));
+				console.log(JSON.stringify(responseJson.businesses[1]));
+        AsyncStorage.setItem(businessKey, JSON.stringify(responseJson.businesses[1]));
+				console.log("done with save");
       })
       .catch((error) =>{
         console.error(error);
