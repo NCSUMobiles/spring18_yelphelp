@@ -148,7 +148,7 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 
             <View style={styles.SectionListButtonStyle}>
               <View style={styles.cardButtonStyle}>
-                <TouchableOpacity activeOpacity = {.5} onPress = {this._callShowDirections} >
+                <TouchableOpacity activeOpacity = {.5} onPress = {this._callShowDirections()} >
                   <Image
                   style={{width: 60, height: 60}}
                   source={require('./img/directions.png')}
