@@ -5,52 +5,79 @@ import call from 'react-native-phone-call'
 
 //working
 class Business {
-  constructor(){
-    this.id = 1;
-    this.name = "Dustin Business";
-    this.image_url = "https://s3-media1.fl.yelpcdn.com/bphoto/H_vQ3ElMoQ8j1bKidrv_1w/o.jpg";
-    this.is_closed = false;
-    this.url = "https://www.pizzahut.com/";
-    this.review_count = 1;
-    this.categories = ["Dustin"];
-    this.rating = "**";
-    this.coordinates = ["35.784915", "-78.690439"];
-    this.transactions = 321;
-    this.price = "$$";
-    this.location = "Raleigh";
-    this.phone = "123456789";
-    this.display_phone = "(123)-456-7890";
-    this.distance = 321.43;
+
+  constructor(jsonBusiness){
+    this.id = jsonBusiness.id;
+    this.name = jsonBusiness.name;
+    this.image_url = jsonBusiness.image_url;
+    this.is_closed = jsonBusiness.is_closed;
+    this.url = jsonBusiness.url;
+    this.review_count = jsonBusiness.review_count;
+    this.categories = jsonBusiness.categories;
+    this.rating = jsonBusiness.rating;
+    this.coordinates = jsonBusiness.coordinates;
+    this.transactions = jsonBusiness.transactions;
+    this.price = jsonBusiness.price;
+    this.location = jsonBusiness.location;
+    this.phone = jsonBusiness.phone;
+    this.display_phone = jsonBusiness.display_phone;
+    this.distance = jsonBusiness.distance;
   }
-  // constructor(JSON jsonBusiness){
-  //   this.id = jsonBusiness.id;
-  // }
 }
 
 
 class MySuggestions extends React.Component<ScreenProps<>> {
   constructor(props){
     super(props);
+    this.state = {
+      businesses: []
+		}
+    // navigator.geolocation.getCurrentPosition(
+    //
+    //   (position) => {
+    //     this.setState({position});
+    //     this.fetchData();
+    //     console.log("newBiz: " + this.state.newBiz.id);
+    //   },
+    //
+    //   (error) => alert(error),
+    //   {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+    // );
   }
 
 
-  makeCall(){
+  _makeCall(businessPhone){
+
     const args = {
-      number: '9093900003', // String value with the number to call
-      prompt: false // Optional boolean property. Determines if the user should be prompt prior to the call
+      number: businessPhone, // String value with the number to call
+      prompt: true // Optional boolean property. Determines if the user should be prompt prior to the call
     }
+
     call(args).catch(console.error)
   }
 
   // This method will open up the default navigation app with directions.
-  _callShowDirections = () => {
+  _callShowDirections = (businessLocations) => {
+
+    navigator.geolocation.getCurrentPosition(
+
+      (position) => {
+        this.setState({position});
+      },
+
+      (error) => alert(error),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+
+    );
+
     const startPoint = {
-      longitude: -78.682095,
-      latitude: 35.784663
+      longitude: this.state.position.coords.longitude,
+      latitude: this.state.position.coords.latitude
     }
+
     const endPoint = {
-      longitude: -118.445181,
-      latitude: 34.068921
+      longitude: parseFloat(businessLocations[1]) ,
+      latitude: parseFloat(businessLocations[0])
     }
 
 		const transportPlan = 'd';
@@ -66,20 +93,22 @@ class MySuggestions extends React.Component<ScreenProps<>> {
   };
 
   componentDidMount() {
+    var businesses = [];
+    this.setState(businesses);
+    // navigator.geolocation.getCurrentPosition(
+    //
+    //   (position) => {
+    //     this.setState({position});
+    //     this.fetchData();
+    //   },
+    //
+    //   (error) => alert(error),
+    //   {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
 
-    navigator.geolocation.getCurrentPosition(
 
-      (position) => {
-        this.setState({position});
-        this.fetchData();
-      },
-
-      (error) => alert(error),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-
-
-      // businessArray = getDataFromDisk()
-  )};
+    // businessArray = getDataFromDisk()
+    //)
+  };
 
   fetchData() {
     var lat = this.state.position.coords.latitude
@@ -100,8 +129,12 @@ class MySuggestions extends React.Component<ScreenProps<>> {
     })
       .then((response) => response.json())
       .then((responseJson) => {
+        for (let o of responseJson.businesses) {
+          var newBiz = new Business(o);
+          this.setState(newBiz);
+          console.log(newBiz.rating);
 
-        console.log(responseJson.businesses);
+        }
 
       })
       .catch((error) =>{
@@ -115,14 +148,14 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 
   render() {
 
-    var testBusiness = new Business();
+    // var testBusiness = new Business();
 
     return (
 
       <View style={styles.listViewContainer}>
       <SectionList
         sections={[
-          {title: "MY SUGGESTIONS", data: [testBusiness, testBusiness, testBusiness, testBusiness, testBusiness]}
+          {title: "MY SUGGESTIONS", data: this.state.businesses}//[testBusiness, testBusiness, testBusiness, testBusiness, testBusiness]}
           // {title: "RESULTS", data: [testBusiness, testBusiness, testBusiness]}
         ]}
 
@@ -149,7 +182,7 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 
             <View style={styles.SectionListButtonStyle}>
               <View style={styles.cardButtonStyle}>
-                <TouchableOpacity activeOpacity = {.5} onPress = {this._callShowDirections()} >
+                <TouchableOpacity activeOpacity = {.5} onPress = {() => this._callShowDirections(item.coordinates)} >
                   <Image
                   style={{width: 60, height: 60}}
                   source={require('./img/directions.png')}
@@ -158,7 +191,7 @@ class MySuggestions extends React.Component<ScreenProps<>> {
               </View>
 
               <View style={styles.cardButtonStyle}>
-                <TouchableOpacity activeOpacity = {.5} onPress = {this._makeCall}>
+                <TouchableOpacity activeOpacity = {.5} onPress = {() => this._makeCall(item.phone)}>
                   <Image
                   style={{width: 60, height: 60}}
                   source={require('./img/phone.png')}
