@@ -24,7 +24,7 @@ class Business {
   //   this.distance = 321.43;
   // }
 
-	var businessKey = 'business';
+	//var businessKey = 'business';
 
 	constructor(biz){
 		this.id = 1;
@@ -63,32 +63,6 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 		  };
 	}
 
-
-/*   constructor(props){
-    super(props);
-  }*/
-
-  // This method will open up the default navigation app with directions.
-  /*_callShowDirections(){
-    const startPoint = {
-      longitude: -8.945406,
-      latitude: 38.575078
-    }
-
-
-		const transportPlan = 'w';
-
-    OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
-      console.log(res)
-    });
-  }*/
-
-
-  // state = {
-  //   position: 'unknown'
-  // };
-
-
   GetSectionListItem=(item)=>{
       Alert.alert(item);
     }
@@ -99,25 +73,27 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 
       (position) => {
         this.setState({position});
+				this.fetchData();
       },
 
       (error) => alert(error),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
   	);
-		this.fetchData();
+
 
 		var savedBusinesses = this.getSavedBusinesses();
 		console.log(savedBusinesses);
 	};
 
+  // async/await are more the wave of the future, Dustin
 	async getSavedBusinesses(){
-	 		return await AsyncStorage.getItem(businessKey);
+	 		return await AsyncStorage.getItem('business');
 	}
 
   fetchData() {
 		var apiCall = "https://api.yelp.com/v3/businesses/search?";
-    // var lat = this.state.position.coords.latitude;
-    // var lng = this.state.position.coords.longitude;
+    var lat = this.state.position.coords.latitude;
+    var lng = this.state.position.coords.longitude;
 		var lat = 35.769;
 		var lng = -78.676;
 
@@ -166,7 +142,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 				var testString = JSON.stringify(responseJson.businesses[1]);
 				console.log(JSON.parse(testString));
 				console.log(JSON.stringify(responseJson.businesses[1]));
-        AsyncStorage.setItem(businessKey, JSON.stringify(responseJson.businesses[1]));
+        AsyncStorage.setItem('business', JSON.stringify(responseJson.businesses[1]));
 				console.log("done with save");
       })
       .catch((error) =>{
