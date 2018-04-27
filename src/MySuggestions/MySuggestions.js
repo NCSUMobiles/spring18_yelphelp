@@ -71,11 +71,12 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 
       (position) => {
         this.setState({position});
+        this.fetchData();
       },
 
       (error) => alert(error),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-      // fetchData();
+
 
       // businessArray = getDataFromDisk()
   )};
