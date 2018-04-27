@@ -86,7 +86,17 @@ class RandomPlace extends React.Component<ScreenProps<>> {
       });
   }
 
- 	spin() {
+ 	async spin() {
+		
+		const soundObject = new Expo.Audio.Sound();
+		try {
+		await soundObject.loadAsync(require('./roulette.mp3'));
+		await soundObject.playAsync();
+		// Your sound is playing!
+		} catch (error) {
+		// An error occurred!
+		}
+		
 		this.state.spinValue.setValue(0);
 		Animated.timing(
 		this.state.spinValue,
