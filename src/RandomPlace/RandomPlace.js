@@ -36,7 +36,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
   )};
 
   fetchData() {
-	var apiCall = "https://api.yelp.com/v3/businesses/search?";
+		var apiCall = "https://api.yelp.com/v3/businesses/search?";
     var lat = this.state.position.coords.latitude;
     var lng = this.state.position.coords.longitude;
     apiCall += "latitude=" + String(lat);
@@ -87,6 +87,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
   }
 
  	spin() {
+		this.fetchData();
 		this.state.spinValue.setValue(0);
 		Animated.timing(
 		this.state.spinValue,
