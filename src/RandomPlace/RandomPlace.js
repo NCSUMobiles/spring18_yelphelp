@@ -33,7 +33,11 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 			price: -1,
 			radius: -1,
 			term: "",
+			showView: null,
+			refresh: false,
 		}
+		
+		
 	}
 
   componentDidMount() {
@@ -131,7 +135,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 		} catch (error) {
 			// An error occurred!
 		}
-
+		
 		this.state.spinValue.setValue(0);
 		Animated.timing(
 		this.state.spinValue,
@@ -139,7 +143,24 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 			toValue: 1,
 			duration: 7000
 		}
-		).start();
+		).start();	
+		this.setView();
+	}
+	
+	setView() {
+		this.showView = 		
+		(<View style={{alignItems:'center'}}>
+				<View style={{height:300,width:300,backgroundColor:'#2d3436'}}>
+					<Text style={{color:'white',textAlign:'center'}}>Name</Text>
+					<View style={{top:10,height:270,width:300,backgroundColor:'#c8c8c8'}}>
+						<Text style={{textAlign:'center', top:50}}># in the card example</Text>
+					</View>
+				</View>
+			</View>);
+	}
+	
+	refresh() {
+		this.showView = null;
 	}
 
 
@@ -155,6 +176,10 @@ class RandomPlace extends React.Component<ScreenProps<>> {
     <View style= {styles.container}>
   	  <View style={styles.form} >
     		<View style={styles.title}>
+				   <View style={{width:Dimensions.get('window').width*(.4)}}></View>
+				   <TouchableHighlight style={{position:'absolute'}} onPress={this.refresh()}>
+						<Image source={require('./reload.png')} style={{width:60, height:50}} />
+					</TouchableHighlight>
     			<Image source={require('./yelphelp(final).png')} style={{width:60, height:50}} />
     		</View>
 
@@ -190,11 +215,14 @@ class RandomPlace extends React.Component<ScreenProps<>> {
     		</View>
 
     		<View style={{alignItems:'center'}}>
-    		<TouchableHighlight style={{position:'absolute'}} onPress={this.spin.bind(this)} >
+    		<TouchableHighlight style={{position:'absolute'}} onPress={this.spin.bind(this)}>
     				<Animated.Image style={animationStyle} source={require('./wheel.png')}>
     				</Animated.Image>
     		</TouchableHighlight>
     		</View>
+			<View>
+			{this.showView}
+			</View>
       </View>
     </View>
 
@@ -202,18 +230,6 @@ class RandomPlace extends React.Component<ScreenProps<>> {
   }
 }
 
-class Spinner extends React.Component {
-
-
-	render() {
-		return (
-		<Animated.Image style={animationStyle} source={require('./wheel.png')}>
-
-		</Animated.Image>
-
-		)
-	}
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -228,7 +244,8 @@ const styles = StyleSheet.create({
   title: {
   	alignItems: 'center',
   	height: 80,
-  	top: 30
+  	top: 30,
+	flexDirection: 'row',
   },
   form: {
 	  flex: 1,
