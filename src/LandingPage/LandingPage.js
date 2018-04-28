@@ -1,57 +1,44 @@
 import React from 'react';
-import {StyleSheet, View, Text, ScrollView, Button, Dimensions} from 'react-native';
+import {StyleSheet, View, Text, ScrollView, Button, Dimensions, Image, TouchableHighlight} from 'react-native';
 
 
 class LandingPage extends React.Component<ScreenProps<>> {
 
   render() {
     return (
-      <View style = {styles.container}>
+		<View style={{height:Dimensions.get('window').height}}>
+        <View style = {styles.container}>
 		  {/*https://github.com/react-native-training/react-native-fonts for list of available fonts*/}
-		<View style={{height:Dimensions.get('window').height*(.15), top:Dimensions.get('window').height*(.05)}}>
-			<Text style={styles.textTitle}>Welcome back you!</Text>
+		<View style={{height:Dimensions.get('window').height*(.15), top:Dimensions.get('window').height*(.05), alignItems:'center'}}>
+    		<Image source={require('./yelphelp(final).png')} style={{width:90, height:75}} />
 		</View>
-		<View style={{height:Dimensions.get('window').height*(.4)}}>
-			<Text style={styles.textTitle}>Stats/Recent History</Text>
-			<View style={{height:40}}></View>
-			<Text style={{fontSize:18, color:'white'}}>Last Restaurant:</Text>
-			<View style={{height:15}}></View>
-			<Text style={{fontSize:18, color:'white'}}>Total Restaurants:</Text>
-			<View style={{height:15}}></View>
-			<Text style={{fontSize:18, color:'white'}}>Favorite Restaurant:</Text>
+		<View style={{height:Dimensions.get('window').height*(.15), top:Dimensions.get('window').height*(.03)}}>
+				<Text style={styles.textTitle}>Welcome back you!</Text>
 		</View>
-		<View style={{height:Dimensions.get('window').height*(.45)}}>
-			<Text style={styles.textTitle}>Quick Links</Text>
-		<View style={{height:20}}></View>
-		<Button
-            onPress={() => this.props.navigation.navigate('RandomPlace')}
-            title="Randomizer"
-            color= "#000000"
-            accessibilityLabel="Learn more about this purple button"
-        />
-		<View style={{height:5}}></View>
-        <Button
-            onPress={() => this.props.navigation.navigate('MyMovies')}
-            title="My Restaurants"
-            color= "#000000"
-            accessibilityLabel="Learn more about this purple button"
-        />
-		<View style={{height:5}}></View>
-		<Button
-            onPress={() => this.props.navigation.navigate('MyMovies')}
-            title="Help"
-            color= "#000000"
-            accessibilityLabel="Learn more about this purple button"
-        />
-		<View style={{height:5}}></View>
-		<Button
-            onPress={() => this.props.navigation.navigate('MyMovies')}
-            title="Yelp"
-            color= "#000000"
-            accessibilityLabel="Learn more about this purple button"
-        />
+		<TouchableHighlight onPress={() => this.props.navigation.navigate('RandomPlace')}>
+			<View style={{alignItems:'center'}}>
+				<View style={{height:150,width:200,backgroundColor:'#2d3436'}}>
+					<Text style={{color:'white',textAlign:'center'}}>Name</Text>
+					<View style={{top:2,height:129,width:200,backgroundColor:'#c8c8c8'}}>
+						<Text style={{textAlign:'center', top:50}}># in the card example</Text>
+					</View>
+				</View>
+			</View>
+		</TouchableHighlight>
+		<View style={{height:50}}></View>
+		<TouchableHighlight onPress={() => this.props.navigation.navigate('MySuggestions')}>
+			<View style={{alignItems:'center'}}>
+				<View style={{height:150,width:200,backgroundColor:'#2d3436'}}>
+					<Text style={{color:'white',textAlign:'center'}}>Name</Text>
+					<View style={{top:2,height:129,width:200,backgroundColor:'#c8c8c8'}}>
+						<Text style={{textAlign:'center', top:50}}># in the card example</Text>
+					</View>
+				</View>
+			</View>
+		</TouchableHighlight>
 		</View>
-      </View>
+		</View>
+
     );
   }
 }
