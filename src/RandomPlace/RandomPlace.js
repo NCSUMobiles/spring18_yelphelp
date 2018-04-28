@@ -102,7 +102,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 		this.state.spinValue,
 		{
 			toValue: 1,
-			duration: 5000
+			duration: 7000
 		}
 		).start();
 	}
@@ -112,7 +112,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 	  let animationStyle = {
 			transform: [{rotate: this.state.spinValue.interpolate({
 									inputRange: [0, 1],
-									outputRange: ['0deg', '1080deg']
+									outputRange: ['0deg', '1440deg']
 								 })
 						}]
 		}
