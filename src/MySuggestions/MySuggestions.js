@@ -162,6 +162,7 @@ class MySuggestions extends React.Component<ScreenProps<>> {
                   // alert(newBiz.name);
                   this.state.businesses.push(newBiz);
               }
+              this._onRefresh();
 
               this._onRefresh();
 
@@ -212,10 +213,16 @@ class MySuggestions extends React.Component<ScreenProps<>> {
                 />
               </View>
               <View>
-                <Text> Rating: { item.rating } </Text>
-                <Text> Price: {item.price } </Text>
-                <Text onPress={() => Linking.openURL(item.url)}> Link </Text>
-                <Text> {item.display_phone} </Text>
+                <Text style={styles.cardText}> Rating: { item.rating } </Text>
+                <Text style={styles.cardText}> Price: {item.price } </Text>
+
+                <Text style={{color: 'blue',     fontSize : 20, textDecorationLine: 'underline', marginLeft : 5,
+                }}
+                      onPress={() => Linking.openURL(item.url)}>
+                    Link
+                </Text>
+
+                <Text style={styles.cardText}> {item.display_phone} </Text>
               </View>
             </View>
 
@@ -296,10 +303,16 @@ const styles = StyleSheet.create({
 
   headerText:{
     color: '#fff',
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
     marginLeft: 5,
     marginRight: 2,
+  },
+
+  cardText: {
+      //color: '#fff',
+      fontSize: 20,
+      //fontWeight: 'bold',
   },
 
   SectionListButtonStyle: {
