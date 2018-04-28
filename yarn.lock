@@ -5921,6 +5921,10 @@ react-native-navigation@^1.1.393:
   dependencies:
     lodash "4.x.x"
 
+react-native-phone-call@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-phone-call/-/react-native-phone-call-1.0.4.tgz#809b7dd27452e429c9deddb4c311997702e333ba"
+
 react-native-safe-area-view@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.7.0.tgz#38f5ab9368d6ef9e5d18ab64212938af3ec39421"

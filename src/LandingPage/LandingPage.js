@@ -62,7 +62,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#ff0000',
   },
   textTitle: {
-	fontFamily: 'Roboto',
+  // fontFamily: 'Roboto',
+  // fontFamily: 'Verdana',
 	fontSize: 22,
 	textShadowOffset: {width:2, height:2},
 	textShadowColor: '#d3d3d3',
@@ -75,9 +76,9 @@ const styles = StyleSheet.create({
 	  flexDirection: 'column',
   },
   textLink: {
-	
+
   }
-  
+
 });
 
 export default LandingPage;

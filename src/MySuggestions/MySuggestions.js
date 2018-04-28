@@ -1,25 +1,27 @@
 import React from 'react';
 import {StyleSheet, View, Text, ScrollView, Button, SectionList, Platform, Alert, Image, Linking, TouchableOpacity} from 'react-native';
 import { OpenMapDirections } from 'react-native-navigation-directions';
+import call from 'react-native-phone-call'
 
 //working
 class Business {
-  constructor(){
-    this.id = 1;
-    this.name = "Dustin Business";
-    this.image_url = "https://facebook.github.io/react-native/docs/assets/favicon.png";
-    this.is_closed = false;
-    this.url = "https://www.pizzahut.com/";
-    this.review_count = 1;
-    this.categories = ["Dustin"];
-    this.rating = "**";
-    this.coordinates = ["35.784915", "-78.690439"];
-    this.transactions = 321;
-    this.price = "$$";
-    this.location = "Raleigh";
-    this.phone = "123456789";
-    this.display_phone = "(123)-456-7890";
-    this.distance = 321.43;
+
+  constructor(jsonBusiness){
+    this.id = jsonBusiness.id;
+    this.name = jsonBusiness.name;
+    this.image_url = jsonBusiness.image_url;
+    this.is_closed = jsonBusiness.is_closed;
+    this.url = jsonBusiness.url;
+    this.review_count = jsonBusiness.review_count;
+    this.categories = jsonBusiness.categories;
+    this.rating = jsonBusiness.rating;
+    this.coordinates = jsonBusiness.coordinates;
+    this.transactions = jsonBusiness.transactions;
+    this.price = jsonBusiness.price;
+    this.location = jsonBusiness.location;
+    this.phone = jsonBusiness.phone;
+    this.display_phone = jsonBusiness.display_phone;
+    this.distance = jsonBusiness.distance;
   }
 }
 
@@ -27,21 +29,58 @@ class Business {
 class MySuggestions extends React.Component<ScreenProps<>> {
   constructor(props){
     super(props);
+    this.state = {
+      businesses: []
+		}
+    // navigator.geolocation.getCurrentPosition(
+    //
+    //   (position) => {
+    //     this.setState({position});
+    //     this.fetchData();
+    //     console.log("newBiz: " + this.state.newBiz.id);
+    //   },
+    //
+    //   (error) => alert(error),
+    //   {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+    // );
+  }
+
+
+  _makeCall(businessPhone){
+
+    const args = {
+      number: businessPhone, // String value with the number to call
+      prompt: true // Optional boolean property. Determines if the user should be prompt prior to the call
+    }
+
+    call(args).catch(console.error)
   }
 
   // This method will open up the default navigation app with directions.
-  _callShowDirections(){
+  _callShowDirections = (businessLocations) => {
+
+    navigator.geolocation.getCurrentPosition(
+
+      (position) => {
+        this.setState({position});
+      },
+
+      (error) => alert(error),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+
+    );
+
     const startPoint = {
-      longitude: -8.945406,
-      latitude: 38.575078
+      longitude: this.state.position.coords.longitude,
+      latitude: this.state.position.coords.latitude
     }
 
     const endPoint = {
-      longitude: 35.784915,
-      latitude: -78.690439
+      longitude: parseFloat(businessLocations[1]) ,
+      latitude: parseFloat(businessLocations[0])
     }
 
-		const transportPlan = 'w';
+		const transportPlan = 'd';
 
     OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
       console.log(res)
@@ -54,20 +93,22 @@ class MySuggestions extends React.Component<ScreenProps<>> {
   };
 
   componentDidMount() {
+    var businesses = [];
+    this.setState(businesses);
+    // navigator.geolocation.getCurrentPosition(
+    //
+    //   (position) => {
+    //     this.setState({position});
+    //     this.fetchData();
+    //   },
+    //
+    //   (error) => alert(error),
+    //   {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
 
-    navigator.geolocation.getCurrentPosition(
 
-      (position) => {
-
-        this.setState({position});
-
-      },
-
-      (error) => alert(error),
-
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-
-  )};
+    // businessArray = getDataFromDisk()
+    //)
+  };
 
   fetchData() {
     var lat = this.state.position.coords.latitude
@@ -88,8 +129,12 @@ class MySuggestions extends React.Component<ScreenProps<>> {
     })
       .then((response) => response.json())
       .then((responseJson) => {
+        for (let o of responseJson.businesses) {
+          var newBiz = new Business(o);
+          this.setState(newBiz);
+          console.log(newBiz.rating);
 
-        console.log(responseJson.businesses);
+        }
 
       })
       .catch((error) =>{
@@ -103,80 +148,134 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 
   render() {
 
-    var A = ['Apple', 'Apricot', 'Avocado','A', 'A', 'A', 'A', 'A', 'A'] ;
-    var B = ['Banana', 'Blackberry', 'Blackcurrant', 'Blueberry', 'Boysenberry'] ;
-    var C = ['Cherry', 'Coconut'] ;
-
-    var testBusiness = new Business();
-
+    // var testBusiness = new Business();
 
     return (
-      <View style={{ marginTop : 24, backgroundColor: '#dfe6e9'}}>
+
+      <View style={styles.listViewContainer}>
       <SectionList
+        sections={[
+          {title: "MY SUGGESTIONS", data: this.state.businesses}//[testBusiness, testBusiness, testBusiness, testBusiness, testBusiness]}
+          // {title: "RESULTS", data: [testBusiness, testBusiness, testBusiness]}
+        ]}
 
-          sections={[
-            {title: "RESULTS", data: [testBusiness, testBusiness, testBusiness, testBusiness, testBusiness]}
-            // { title: 'Fruits Name From A', data: A },
-            // { title: 'Fruits Name From B', data: B },
-            // { title: 'Fruits Name From C', data: C },
-          ]}
-
-          renderSectionHeader={ ({section}) => <Text style={styles.SectionHeaderStyle}> { section.title } </Text> }
-          renderItem={ ({item}) =>
+        renderSectionHeader={ ({section}) => <Text style={styles.SectionHeaderStyle}> { section.title } </Text> }
+        renderItem={ ({item}) =>
+          <View>
+            <View style={styles.CardHeader}>
+              <Text style={styles.headerText}> { item.name } </Text>
+            </View>
             <View style={styles.SectionListItemStyle}>
               <View>
                 <Image
-                  style={{width: 100, height: 100}}
+                  style={{width: 130, height: 130}}
                   source={{uri: item.image_url}}
                 />
               </View>
               <View>
-                <Text  onPress={this.GetSectionListItem.bind(this, item)}> { item.name } </Text>
                 <Text> Rating: { item.rating } </Text>
                 <Text> Price: {item.price } </Text>
                 <Text onPress={() => Linking.openURL(item.url)}> Link </Text>
                 <Text> {item.display_phone} </Text>
               </View>
-              <View>
-                <Image
-                  style={{width: 100, height: 100}}
+            </View>
+
+            <View style={styles.SectionListButtonStyle}>
+              <View style={styles.cardButtonStyle}>
+                <TouchableOpacity activeOpacity = {.5} onPress = {() => this._callShowDirections(item.coordinates)} >
+                  <Image
+                  style={{width: 60, height: 60}}
                   source={require('./img/directions.png')}
-                />
+                  />
+                </TouchableOpacity>
               </View>
 
+              <View style={styles.cardButtonStyle}>
+                <TouchableOpacity activeOpacity = {.5} onPress = {() => this._makeCall(item.phone)}>
+                  <Image
+                  style={{width: 60, height: 60}}
+                  source={require('./img/phone.png')}
+                  />
+                </TouchableOpacity>
+              </View>
 
+              <View style={styles.cardButtonStyle}>
+                <TouchableOpacity activeOpacity = {.5} >
+                  <Image
+                  style={{width: 60, height: 60}}
+                  source={require('./img/disk.png')}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
-             }
-          keyExtractor={ (item, index) => index }
-
-        />
+          </View>
+        }
+        keyExtractor={ (item, index) => index }
+      />
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  listViewContainer: {
+    marginTop : 24,
+    backgroundColor : '#636e72',
+    backgroundColor: '#dfe6e9',
+  },
+
   container: {
     flex: 1,
     backgroundColor: '#bdc3c7',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  SectionHeaderStyle:{
 
-  backgroundColor : '#CDDC39',
+  SectionHeaderStyle:{
+    backgroundColor : '#d63031',
     fontSize : 20,
     padding: 5,
     color: '#fff',
+    fontWeight: 'bold',
   },
 
   SectionListItemStyle:{
     padding: 5,
-    margin: 5,
+    marginLeft: 5,
+    marginRight: 5,
     flex: 1,
     flexDirection: 'row',
     backgroundColor : '#FFF',
+  },
+
+  CardHeader:{
+    backgroundColor: '#2d3436',
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop: 5,
+  },
+
+  headerText:{
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+
+  SectionListButtonStyle: {
+    padding: 5,
+    marginLeft: 5,
+    marginRight: 5,
+    marginBottom: 5,
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor : '#FFF',
+    justifyContent: 'center',
+  },
+
+  cardButtonStyle: {
+    margin: 15,
   }
+
 });
 
 export default MySuggestions;
