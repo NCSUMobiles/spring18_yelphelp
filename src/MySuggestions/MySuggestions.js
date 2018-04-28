@@ -5,7 +5,6 @@ import call from 'react-native-phone-call'
 
 //working
 class Business {
-
   constructor(jsonBusiness){
     this.id = jsonBusiness.id;
     this.name = jsonBusiness.name;

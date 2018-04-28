@@ -3,7 +3,25 @@ import {StyleSheet, View, Text, ScrollView, Picker, Button, Image, TextInput, To
 //import OAuthSimple from 'oauthsimple'
 import image from '../img/yelphelp(final).png'
 
-
+class Business {
+  constructor(jsonBusiness){
+    this.id = jsonBusiness.id;
+    this.name = jsonBusiness.name;
+    this.image_url = jsonBusiness.image_url;
+    this.is_closed = jsonBusiness.is_closed;
+    this.url = jsonBusiness.url;
+    this.review_count = jsonBusiness.review_count;
+    this.categories = jsonBusiness.categories;
+    this.rating = jsonBusiness.rating;
+    this.coordinates = jsonBusiness.coordinates;
+    this.transactions = jsonBusiness.transactions;
+    this.price = jsonBusiness.price;
+    this.location = jsonBusiness.location;
+    this.phone = jsonBusiness.phone;
+    this.display_phone = jsonBusiness.display_phone;
+    this.distance = jsonBusiness.distance;
+  }
+}
 
 
 class RandomPlace extends React.Component<ScreenProps<>> {
@@ -49,12 +67,12 @@ class RandomPlace extends React.Component<ScreenProps<>> {
     }
 
   componentDidMount() {
-    console.log("mount");
-    // fetchData();
+
     navigator.geolocation.getCurrentPosition(
 
       (position) => {
         this.setState({position});
+				this.fetchData();
       },
 
       (error) => alert(error),
@@ -91,7 +109,6 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 
 	apiCall += "&limit=50";
 
-    console.log('test');
     var yelpKey = 'VEcz4Kbd8TR68oFnT4_mdnWjRL8J5qjeN0bKCMEIPZuODihSHM_9_v-5CCJGm_QM_-kO4hx9DS9u5_5UByUATrgquPE-SeFr6VvjdMhLapg4P1jWA5Gm-gp42U-gWnYx';
 
 
