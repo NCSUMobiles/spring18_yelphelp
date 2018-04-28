@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Text, ScrollView, Button, SectionList, Platform, Alert, Image, Linking, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, ScrollView, Button, SectionList, Platform, Alert, Image, Linking, TouchableOpacity, RefreshControl} from 'react-native';
 import { OpenMapDirections } from 'react-native-navigation-directions';
 import call from 'react-native-phone-call'
 
@@ -29,21 +29,14 @@ class MySuggestions extends React.Component<ScreenProps<>> {
   constructor(props){
     super(props);
     this.state = {
-      businesses: []
-		}
-    // navigator.geolocation.getCurrentPosition(
-    //
-    //   (position) => {
-    //     this.setState({position});
-    //     this.fetchData();
-    //     console.log("newBiz: " + this.state.newBiz.id);
-    //   },
-    //
-    //   (error) => alert(error),
-    //   {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-    // );
+      responseJson: [],
+      price: -1,
+      radius: -1,
+      term: "",
+      businesses: [],
+      refreshing: false,
+    }
   }
-
 
   _makeCall(businessPhone){
 
@@ -58,109 +51,162 @@ class MySuggestions extends React.Component<ScreenProps<>> {
   // This method will open up the default navigation app with directions.
   _callShowDirections = (businessLocations) => {
 
-    navigator.geolocation.getCurrentPosition(
+    if (this.state.position.coords.longitude == null){
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.setState({position});
+          const startPoint = {
+            longitude: this.state.position.coords.longitude,
+            latitude: this.state.position.coords.latitude
+          }
 
-      (position) => {
-        this.setState({position});
-      },
+          const endPoint = {
+            longitude: parseFloat(businessLocations.longitude) ,
+            latitude: parseFloat(businessLocations.latitude)
+          }
 
-      (error) => alert(error),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+      		const transportPlan = 'd';
 
-    );
-
-    const startPoint = {
-      longitude: this.state.position.coords.longitude,
-      latitude: this.state.position.coords.latitude
+          OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
+            console.log(res)
+          });
+        },
+        (error) => alert(error),
+        {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+      );
     }
+    else{
+      const startPoint = {
+        longitude: this.state.position.coords.longitude,
+        latitude: this.state.position.coords.latitude
+      }
 
-    const endPoint = {
-      longitude: parseFloat(businessLocations[1]) ,
-      latitude: parseFloat(businessLocations[0])
+      const endPoint = {
+        longitude: parseFloat(businessLocations.longitude) ,
+        latitude: parseFloat(businessLocations.latitude)
+      }
+
+      const transportPlan = 'd';
+
+      OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
+        console.log(res)
+      });
     }
-
-		const transportPlan = 'd';
-
-    OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
-      console.log(res)
-    });
   }
 
 
-  state = {
-    position: 'unknown'
-  };
-
   componentDidMount() {
-    var businesses = [];
-    this.setState(businesses);
+    //This will need to be removed when we get disk reads down
+    this.getLocationAndFetchData();
+
+    // when the method call ablove gets deleted, un-comment this section
     // navigator.geolocation.getCurrentPosition(
-    //
-    //   (position) => {
-    //     this.setState({position});
-    //     this.fetchData();
-    //   },
-    //
-    //   (error) => alert(error),
-    //   {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+    //     (position) => {
+    //         this.setState({position});
+    //     },
+    //     (error) => alert(error),
+    //     {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+    // );
 
-
-    // businessArray = getDataFromDisk()
-    //)
   };
+
+  getLocationAndFetchData(){
+      navigator.geolocation.getCurrentPosition(
+          (position) => {
+              this.setState({position});
+              console.log("fetching data");
+              this.fetchData();
+          },
+          (error) => alert(error),
+          {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+      );
+  }
+
 
   fetchData() {
-    var lat = this.state.position.coords.latitude
-    var lng = this.state.position.coords.longitude
-    var latstr = "latitude=" + String(lat) + "&"
-    var lngstr = "longitude=" + String(lng) + "&"
+      var apiCall = "https://api.yelp.com/v3/businesses/search?";
+      var lat = this.state.position.coords.latitude;
+      var lng = this.state.position.coords.longitude;
+      apiCall += "latitude=" + String(lat);
+      apiCall += "&longitude=" + String(lng);
 
-    console.log('test');
-    var yelpKey = 'VEcz4Kbd8TR68oFnT4_mdnWjRL8J5qjeN0bKCMEIPZuODihSHM_9_v-5CCJGm_QM_-kO4hx9DS9u5_5UByUATrgquPE-SeFr6VvjdMhLapg4P1jWA5Gm-gp42U-gWnYx';
+      //Radius
+      if (this.state.radius != -1) {
+          apiCall += "&radius=" + String(this.state.radius);
+      }
+
+      if (this.state.term != "") {
+          apiCall += "&term=" + this.state.term;
+      }
+      if (this.state.price != -1) {
+          if (this.state.price == 1) {
+              apiCall += "&price=1";
+          } else if (this.state.price == 2) {
+              apiCall += "&price=1, 2";
+          } else if (this.state.price == 3) {
+              apiCall += "&price=1, 2, 3";
+          } else if (this.state.price == 4) {
+              apiCall += "&price=1, 2, 3, 4";
+          }
+      }
+
+      // let's make sure that the stores are open
+      apiCall += "&is_closed=false";
+      apiCall += "&limit=50";
+      var yelpKey = 'VEcz4Kbd8TR68oFnT4_mdnWjRL8J5qjeN0bKCMEIPZuODihSHM_9_v-5CCJGm_QM_-kO4hx9DS9u5_5UByUATrgquPE-SeFr6VvjdMhLapg4P1jWA5Gm-gp42U-gWnYx';
 
 
-    fetch('https://api.yelp.com/v3/businesses/search?term=food&latitude=35.7796&longitude=-78.6382&limit=50', {
-      method: 'GET',
-      headers: {
-        Authorization: 'Bearer ' + yelpKey,
-      },
-      body: undefined,
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        for (let o of responseJson.businesses) {
-          var newBiz = new Business(o);
-          this.setState(newBiz);
-          console.log(newBiz.rating);
-
-        }
-
+      fetch(apiCall, {
+          method: 'GET',
+          headers: {
+              Authorization: 'Bearer ' + yelpKey,
+          },
+          body: undefined,
       })
-      .catch((error) =>{
-        console.error(error);
-      });
+          .then((response) => response.json())
+          .then((responseJson) => {
+              var responseJsonBusinesses = responseJson.businesses;
+              var i = 0;
+              for(i; i<responseJsonBusinesses.length; i++){
+                  var newBiz = new Business(responseJsonBusinesses[i]);
+                  this.state.businesses.push(newBiz);
+              }
+              this._onRefresh();
+          })
+          .catch((error) =>{
+              console.error(error);
+          });
   }
 
   GetSectionListItem=(item)=>{
       Alert.alert(item);
     }
 
-  render() {
+    _onRefresh(){
+      this.setState({refreshing: true});
+      this.setState({refreshing:false});
+    }
 
-    // var testBusiness = new Business();
+  render() {
 
     return (
 
       <View style={styles.listViewContainer}>
       <SectionList
+        refreshControl={
+            <RefreshControl
+              refreshing = {this.state.refreshing}
+              onRefresh = {this._onRefresh.bind(this)}
+            />
+        }
         sections={[
-          {title: "MY SUGGESTIONS", data: this.state.businesses}//[testBusiness, testBusiness, testBusiness, testBusiness, testBusiness]}
+          {title: "MY SUGGESTIONS", data: this.state.businesses }//[testBusiness, testBusiness, testBusiness, testBusiness, testBusiness]}
           // {title: "RESULTS", data: [testBusiness, testBusiness, testBusiness]}
         ]}
 
-        renderSectionHeader={ ({section}) => <Text style={styles.SectionHeaderStyle}> { section.title } </Text> }
+        renderSectionHeader={ ({section}) => <View style={styles.SectionHeaderStyle}><Text style={styles.SectionHeaderText}> { section.title } </Text></View> }
         renderItem={ ({item}) =>
-          <View>
+          <View style={styles.listViewContainer}>
             <View style={styles.CardHeader}>
               <Text style={styles.headerText}> { item.name } </Text>
             </View>
@@ -172,10 +218,15 @@ class MySuggestions extends React.Component<ScreenProps<>> {
                 />
               </View>
               <View>
-                <Text> Rating: { item.rating } </Text>
-                <Text> Price: {item.price } </Text>
-                <Text onPress={() => Linking.openURL(item.url)}> Link </Text>
-                <Text> {item.display_phone} </Text>
+                <Text style={styles.cardText}> Rating: { item.rating } </Text>
+                <Text style={styles.cardText}> Price: { item.price } </Text>
+
+                <Text style={styles.cardLink}
+                      onPress={() => Linking.openURL(item.url)}>
+                    Link
+                </Text>
+
+                <Text style={styles.cardText}> {item.display_phone} </Text>
               </View>
             </View>
 
@@ -218,8 +269,7 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 
 const styles = StyleSheet.create({
   listViewContainer: {
-    marginTop : 24,
-    backgroundColor : '#636e72',
+    // backgroundColor : '#636e72',
     backgroundColor: '#dfe6e9',
   },
 
@@ -232,10 +282,17 @@ const styles = StyleSheet.create({
 
   SectionHeaderStyle:{
     backgroundColor : '#d63031',
+    height: 60,
+    justifyContent: 'flex-end',
+    flex: 1,
+  },
+
+  SectionHeaderText:{
     fontSize : 20,
     padding: 5,
     color: '#fff',
     fontWeight: 'bold',
+    textAlign: 'center',
   },
 
   SectionListItemStyle:{
@@ -256,8 +313,20 @@ const styles = StyleSheet.create({
 
   headerText:{
     color: '#fff',
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
+    margin: 5,
+  },
+
+  cardText: {
+    fontSize: 20,
+  },
+
+  cardLink: {
+    color: 'blue',
+    fontSize : 20,
+    textDecorationLine: 'underline',
+    marginLeft : 5,
   },
 
   SectionListButtonStyle: {
