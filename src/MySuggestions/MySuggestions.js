@@ -51,45 +51,63 @@ class MySuggestions extends React.Component<ScreenProps<>> {
   // This method will open up the default navigation app with directions.
   _callShowDirections = (businessLocations) => {
 
-    navigator.geolocation.getCurrentPosition(
+    if (this.state.position.coords.longitude == null){
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.setState({position});
+          const startPoint = {
+            longitude: this.state.position.coords.longitude,
+            latitude: this.state.position.coords.latitude
+          }
 
-      (position) => {
-        this.setState({position});
-      },
+          const endPoint = {
+            longitude: parseFloat(businessLocations.longitude) ,
+            latitude: parseFloat(businessLocations.latitude)
+          }
 
-      (error) => alert(error),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+      		const transportPlan = 'd';
 
-    );
-
-    const startPoint = {
-      longitude: this.state.position.coords.longitude,
-      latitude: this.state.position.coords.latitude
+          OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
+            console.log(res)
+          });
+        },
+        (error) => alert(error),
+        {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+      );
     }
+    else{
+      const startPoint = {
+        longitude: this.state.position.coords.longitude,
+        latitude: this.state.position.coords.latitude
+      }
 
-    const endPoint = {
-      longitude: parseFloat(businessLocations[1]) ,
-      latitude: parseFloat(businessLocations[0])
+      const endPoint = {
+        longitude: parseFloat(businessLocations.longitude) ,
+        latitude: parseFloat(businessLocations.latitude)
+      }
+
+      const transportPlan = 'd';
+
+      OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
+        console.log(res)
+      });
     }
-    alert(businessLocations[0]);
-    alert(businessLocations[1]);
-
-		const transportPlan = 'd';
-
-    OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
-      console.log(res)
-    });
   }
 
 
-  state = {
-    position: 'unknown'
-  };
-
   componentDidMount() {
-    var businesses = [];
-    this.setState(businesses);
+    //This will need to be removed when we get disk reads down
     this.getLocationAndFetchData();
+
+    // when the method call ablove gets deleted, un-comment this section
+    // navigator.geolocation.getCurrentPosition(
+    //     (position) => {
+    //         this.setState({position});
+    //     },
+    //     (error) => alert(error),
+    //     {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+    // );
+
   };
 
   getLocationAndFetchData(){
@@ -132,6 +150,8 @@ class MySuggestions extends React.Component<ScreenProps<>> {
           }
       }
 
+      // let's make sure that the stores are open
+      apiCall += "&is_closed=false";
       apiCall += "&limit=50";
       var yelpKey = 'VEcz4Kbd8TR68oFnT4_mdnWjRL8J5qjeN0bKCMEIPZuODihSHM_9_v-5CCJGm_QM_-kO4hx9DS9u5_5UByUATrgquPE-SeFr6VvjdMhLapg4P1jWA5Gm-gp42U-gWnYx';
 
@@ -146,26 +166,12 @@ class MySuggestions extends React.Component<ScreenProps<>> {
           .then((response) => response.json())
           .then((responseJson) => {
               var responseJsonBusinesses = responseJson.businesses;
-              //var arrayLength = responseJsonBusinesses.length;
-              // var selectedBusiness = Math.floor((Math.random() * arrayLength) + 1);
-              // console.log("selected business " + selectedBusiness);
-              // var newBiz = new Business(responseJsonBusinesses[selectedBusiness]);
-              // console.log(newBiz.name);
-              // this.state.selectedBusiness = newBiz;
-              // console.log(this.state.selectedBusiness.name);
-
-              //save every single business item into an array
               var i = 0;
               for(i; i<responseJsonBusinesses.length; i++){
-                  //var businessJson = responseJsonBusinesses[i];
                   var newBiz = new Business(responseJsonBusinesses[i]);
-                  // alert(newBiz.name);
                   this.state.businesses.push(newBiz);
               }
               this._onRefresh();
-
-              this._onRefresh();
-
           })
           .catch((error) =>{
               console.error(error);
@@ -178,7 +184,6 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 
     _onRefresh(){
       this.setState({refreshing: true});
-      //this.getLocationAndFetchData(); //.then(() => {this.setState({refreshing: true}));
       this.setState({refreshing:false});
     }
 
@@ -188,20 +193,20 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 
       <View style={styles.listViewContainer}>
       <SectionList
-        sections={[
-          {title: "MY SUGGESTIONS", data: this.state.businesses }//[testBusiness, testBusiness, testBusiness, testBusiness, testBusiness]}
-          // {title: "RESULTS", data: [testBusiness, testBusiness, testBusiness]}
-        ]}
         refreshControl={
             <RefreshControl
               refreshing = {this.state.refreshing}
               onRefresh = {this._onRefresh.bind(this)}
             />
         }
+        sections={[
+          {title: "MY SUGGESTIONS", data: this.state.businesses }//[testBusiness, testBusiness, testBusiness, testBusiness, testBusiness]}
+          // {title: "RESULTS", data: [testBusiness, testBusiness, testBusiness]}
+        ]}
 
-        renderSectionHeader={ ({section}) => <Text style={styles.SectionHeaderStyle}> { section.title } </Text> }
+        renderSectionHeader={ ({section}) => <View style={styles.SectionHeaderStyle}><Text style={styles.SectionHeaderText}> { section.title } </Text></View> }
         renderItem={ ({item}) =>
-          <View style={styles}>
+          <View style={styles.listViewContainer}>
             <View style={styles.CardHeader}>
               <Text style={styles.headerText}> { item.name } </Text>
             </View>
@@ -214,10 +219,9 @@ class MySuggestions extends React.Component<ScreenProps<>> {
               </View>
               <View>
                 <Text style={styles.cardText}> Rating: { item.rating } </Text>
-                <Text style={styles.cardText}> Price: {item.price } </Text>
+                <Text style={styles.cardText}> Price: { item.price } </Text>
 
-                <Text style={{color: 'blue',     fontSize : 20, textDecorationLine: 'underline', marginLeft : 5,
-                }}
+                <Text style={styles.cardLink}
                       onPress={() => Linking.openURL(item.url)}>
                     Link
                 </Text>
@@ -265,7 +269,6 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 
 const styles = StyleSheet.create({
   listViewContainer: {
-    marginTop : 24,
     // backgroundColor : '#636e72',
     backgroundColor: '#dfe6e9',
   },
@@ -279,10 +282,17 @@ const styles = StyleSheet.create({
 
   SectionHeaderStyle:{
     backgroundColor : '#d63031',
+    height: 60,
+    justifyContent: 'flex-end',
+    flex: 1,
+  },
+
+  SectionHeaderText:{
     fontSize : 20,
     padding: 5,
     color: '#fff',
     fontWeight: 'bold',
+    textAlign: 'center',
   },
 
   SectionListItemStyle:{
@@ -305,14 +315,18 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 24,
     fontWeight: 'bold',
-    marginLeft: 5,
-    marginRight: 2,
+    margin: 5,
   },
 
   cardText: {
-      //color: '#fff',
-      fontSize: 20,
-      //fontWeight: 'bold',
+    fontSize: 20,
+  },
+
+  cardLink: {
+    color: 'blue',
+    fontSize : 20,
+    textDecorationLine: 'underline',
+    marginLeft : 5,
   },
 
   SectionListButtonStyle: {
