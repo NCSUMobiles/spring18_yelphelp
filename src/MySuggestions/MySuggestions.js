@@ -161,6 +161,7 @@ class MySuggestions extends React.Component<ScreenProps<>> {
                   this.state.businesses.push(newBiz);
                   console.log(this.state.businesses.length);
               }
+              this._onRefresh();
 
 
 
@@ -176,7 +177,7 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 
     _onRefresh(){
       this.setState({refreshing: true});
-      this.getLocationAndFetchData(); //.then(() => {this.setState({refreshing: true}));
+      //this.getLocationAndFetchData(); //.then(() => {this.setState({refreshing: true}));
       this.setState({refreshing:false});
     }
 
@@ -211,10 +212,16 @@ class MySuggestions extends React.Component<ScreenProps<>> {
                 />
               </View>
               <View>
-                <Text> Rating: { item.rating } </Text>
-                <Text> Price: {item.price } </Text>
-                <Text onPress={() => Linking.openURL(item.url)}> Link </Text>
-                <Text> {item.display_phone} </Text>
+                <Text style={styles.cardText}> Rating: { item.rating } </Text>
+                <Text style={styles.cardText}> Price: {item.price } </Text>
+
+                <Text style={{color: 'blue',     fontSize : 20, textDecorationLine: 'underline', marginLeft : 5,
+                }}
+                      onPress={() => Linking.openURL(item.url)}>
+                    Link
+                </Text>
+
+                <Text style={styles.cardText}> {item.display_phone} </Text>
               </View>
             </View>
 
@@ -295,8 +302,14 @@ const styles = StyleSheet.create({
 
   headerText:{
     color: '#fff',
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
+  },
+
+  cardText: {
+      //color: '#fff',
+      fontSize: 20,
+      //fontWeight: 'bold',
   },
 
   SectionListButtonStyle: {
