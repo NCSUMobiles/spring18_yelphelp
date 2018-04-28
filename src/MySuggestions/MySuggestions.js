@@ -71,6 +71,8 @@ class MySuggestions extends React.Component<ScreenProps<>> {
       longitude: parseFloat(businessLocations[1]) ,
       latitude: parseFloat(businessLocations[0])
     }
+    alert(businessLocations[0]);
+    alert(businessLocations[1]);
 
 		const transportPlan = 'd';
 
@@ -159,10 +161,9 @@ class MySuggestions extends React.Component<ScreenProps<>> {
                   var newBiz = new Business(responseJsonBusinesses[i]);
                   // alert(newBiz.name);
                   this.state.businesses.push(newBiz);
-                  console.log(this.state.businesses.length);
               }
 
-
+              this._onRefresh();
 
           })
           .catch((error) =>{
@@ -176,7 +177,7 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 
     _onRefresh(){
       this.setState({refreshing: true});
-      this.getLocationAndFetchData(); //.then(() => {this.setState({refreshing: true}));
+      //this.getLocationAndFetchData(); //.then(() => {this.setState({refreshing: true}));
       this.setState({refreshing:false});
     }
 
@@ -192,14 +193,14 @@ class MySuggestions extends React.Component<ScreenProps<>> {
         ]}
         refreshControl={
             <RefreshControl
-            refreshing = {this.state.refreshing}
-            onRefresh = {this._onRefresh.bind(this)}
+              refreshing = {this.state.refreshing}
+              onRefresh = {this._onRefresh.bind(this)}
             />
         }
 
         renderSectionHeader={ ({section}) => <Text style={styles.SectionHeaderStyle}> { section.title } </Text> }
         renderItem={ ({item}) =>
-          <View>
+          <View style={styles}>
             <View style={styles.CardHeader}>
               <Text style={styles.headerText}> { item.name } </Text>
             </View>
@@ -258,7 +259,7 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 const styles = StyleSheet.create({
   listViewContainer: {
     marginTop : 24,
-    backgroundColor : '#636e72',
+    // backgroundColor : '#636e72',
     backgroundColor: '#dfe6e9',
   },
 
@@ -297,6 +298,8 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 20,
     fontWeight: 'bold',
+    marginLeft: 5,
+    marginRight: 2,
   },
 
   SectionListButtonStyle: {
