@@ -108,9 +108,8 @@ class RandomPlace extends React.Component<ScreenProps<>> {
         var arrayLength = responseJsonBusinesses.length;
         var selectedBusiness = Math.floor((Math.random() * arrayLength) + 1);
         console.log("selected business " + selectedBusiness);
-        var newBiz = new Business(responseJsonBusinesses[selectedBusiness]);
-        console.log(newBiz.name);
-        this.state.selectedBusiness = newBiz;
+        console.log(responseJsonBusinesses[selectedBusiness]);
+        this.state.selectedBusiness = new Business(responseJsonBusinesses[selectedBusiness]);
         console.log(this.state.selectedBusiness.name);
 
       })
@@ -149,7 +148,9 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 									inputRange: [0, 1],
 									outputRange: ['0deg', '1440deg']
 								 })
-						}]
+						}],
+      width: 300,
+      height: 300
 		}
     return (
     <View style= {styles.container}>
@@ -189,9 +190,14 @@ class RandomPlace extends React.Component<ScreenProps<>> {
     			<TextInput textAlign = 'center' style={{height: 25, width:25, borderColor: 'white', borderWidth: 1}} />
     		</View>
 
+        {this.state.selectedBusiness &&
+          <View style={styles.resultCard}> 
+            <Text>Spun</Text> 
+          </View>}
+
     		<View style={{alignItems:'center'}}>
     		<TouchableHighlight style={{position:'absolute'}} onPress={this.spin.bind(this)} >
-    				<Animated.Image style={animationStyle} source={require('./wheel.png')}>
+    				<Animated.Image style={animationStyle} source={require('./roulette.png')}>
     				</Animated.Image>
     		</TouchableHighlight>
     		</View>
@@ -207,7 +213,7 @@ class Spinner extends React.Component {
 
 	render() {
 		return (
-		<Animated.Image style={animationStyle} source={require('./wheel.png')}>
+		<Animated.Image style={animationStyle} source={require('./roulette.png')}>
 
 		</Animated.Image>
 
@@ -218,7 +224,7 @@ class Spinner extends React.Component {
 const styles = StyleSheet.create({
   container: {
   	flex: 1,
-  	backgroundColor: '#ff0000',
+  	backgroundColor: '#176543',
   },
   categories: {
   	flexDirection: 'row',
