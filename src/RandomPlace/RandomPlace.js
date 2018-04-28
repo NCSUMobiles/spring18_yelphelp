@@ -3,67 +3,69 @@ import {StyleSheet, View, Text, ScrollView, Picker, Button, Image, TextInput, To
 //import OAuthSimple from 'oauthsimple'
 import image from '../img/yelphelp(final).png'
 
-
+class Business {
+  constructor(jsonBusiness){
+    this.id = jsonBusiness.id;
+    this.name = jsonBusiness.name;
+    this.image_url = jsonBusiness.image_url;
+    this.is_closed = jsonBusiness.is_closed;
+    this.url = jsonBusiness.url;
+    this.review_count = jsonBusiness.review_count;
+    this.categories = jsonBusiness.categories;
+    this.rating = jsonBusiness.rating;
+    this.coordinates = jsonBusiness.coordinates;
+    this.transactions = jsonBusiness.transactions;
+    this.price = jsonBusiness.price;
+    this.location = jsonBusiness.location;
+    this.phone = jsonBusiness.phone;
+    this.display_phone = jsonBusiness.display_phone;
+    this.distance = jsonBusiness.distance;
+  }
+}
 
 
 class RandomPlace extends React.Component<ScreenProps<>> {
 		constructor() {
 		super()
 		this.state = {
-			spinValue: new Animated.Value(0)
-			// responseJson: []
-			// price: -1
-			// radius: -1
-			// term: ""
+			spinValue: new Animated.Value(0),
+			responseJson: [],
+			price: -1,
+			radius: -1,
+			term: "",
 		}
 	}
 
-
-/*   constructor(props){
-    super(props);
-  }*/
-
-  // This method will open up the default navigation app with directions.
-  /*_callShowDirections(){
-    const startPoint = {
-      longitude: -8.945406,
-      latitude: 38.575078
-    }
-
-
-		const transportPlan = 'w';
-
-    OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
-      console.log(res)
-    });
-  }*/
-
-
-  // state = {
-  //   position: 'unknown'
-  // };
-
+  componentDidMount() {
+    // navigator.geolocation.getCurrentPosition(
+    //     (position) => {
+    //       console.log("first location fetch done");
+    //       this.setState({position});
+    //     },
+    //     (error) => alert(error),
+    //     {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+    //   );
+  }
 
   GetSectionListItem=(item)=>{
       Alert.alert(item);
     }
 
-  componentDidMount() {
-    console.log("mount");
-    // fetchData();
+
+  getLocationAndFetchData(){
     navigator.geolocation.getCurrentPosition(
-
-      (position) => {
-        this.setState({position});
-      },
-
-      (error) => alert(error),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-
-  )};
+        (position) => {
+          this.setState({position});
+          console.log("fetching data");
+          this.fetchData();
+        },
+        (error) => alert(error),
+        {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+      );
+  }
 
   fetchData() {
-	var apiCall = "https://api.yelp.com/v3/businesses/search?";
+	  var apiCall = "https://api.yelp.com/v3/businesses/search?";
     var lat = this.state.position.coords.latitude;
     var lng = this.state.position.coords.longitude;
     apiCall += "latitude=" + String(lat);
@@ -74,8 +76,8 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 		apiCall += "&radius=" + String(this.state.radius);
 	}
 
-	if (this.state.type != "") {
-		apiCall += "&term=" + this.state.type;
+	if (this.state.term != "") {
+		apiCall += "&term=" + this.state.term;
 	}
 	if (this.state.price != -1) {
 		if (this.state.price == 1) {
@@ -90,8 +92,6 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 	}
 
 	apiCall += "&limit=50";
-
-    console.log('test');
     var yelpKey = 'VEcz4Kbd8TR68oFnT4_mdnWjRL8J5qjeN0bKCMEIPZuODihSHM_9_v-5CCJGm_QM_-kO4hx9DS9u5_5UByUATrgquPE-SeFr6VvjdMhLapg4P1jWA5Gm-gp42U-gWnYx';
 
 
@@ -104,8 +104,14 @@ class RandomPlace extends React.Component<ScreenProps<>> {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        this.state.responseJson = responseJson.businesses;
-        console.log(responseJson.businesses);
+        var responseJsonBusinesses = responseJson.businesses;
+        var arrayLength = responseJsonBusinesses.length;
+        var selectedBusiness = Math.floor((Math.random() * arrayLength) + 1);
+        console.log("selected business " + selectedBusiness);
+        var newBiz = new Business(responseJsonBusinesses[selectedBusiness]);
+        console.log(newBiz.name);
+        this.state.selectedBusiness = newBiz;
+        console.log(this.state.selectedBusiness.name);
 
       })
       .catch((error) =>{
@@ -113,8 +119,10 @@ class RandomPlace extends React.Component<ScreenProps<>> {
       });
   }
 
+
+
  	async spin() {
-		
+    this.getLocationAndFetchData();
 		const soundObject = new Expo.Audio.Sound();
 		try {
 			await soundObject.loadAsync(require('./roulette.mp3'));
@@ -123,7 +131,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 		} catch (error) {
 			// An error occurred!
 		}
-		
+
 		this.state.spinValue.setValue(0);
 		Animated.timing(
 		this.state.spinValue,
