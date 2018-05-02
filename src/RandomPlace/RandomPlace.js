@@ -191,8 +191,8 @@ class RandomPlace extends React.Component<ScreenProps<>> {
     		</View>
 
         {this.state.selectedBusiness &&
-          <View style={styles.resultCard}> 
-            <Text>Spun</Text> 
+          <View style={styles.resultCard}>
+            <Text>Spun</Text>
           </View>}
 
     		<View style={{alignItems:'center'}}>

@@ -108,8 +108,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ff0000',
   },
     textTitle: {
-    // fontFamily: 'Roboto',
-    // fontFamily: 'Verdana',
+    //fontFamily: 'Verdana',
   	fontSize: 22,
   	textShadowOffset: {width:2, height:2},
   	textShadowColor: '#d3d3d3',

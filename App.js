@@ -3,6 +3,10 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { StackNavigator, DrawerNavigator, TabNavigator } from "react-navigation";
 
+import {
+  setCustomText
+} from 'react-native-global-props';
+
 import LandingPage from './src/LandingPage/LandingPage.js';
 import MySuggestions from './src/MySuggestions/MySuggestions.js';
 import RandomPlace from './src/RandomPlace/RandomPlace.js';
@@ -37,6 +41,7 @@ const TabBarOptions = {
   tabBarOptions: {
 		activeTintColor: '#f75d59',
 		labelStyle: {
+      fontFamily: 'Verdana',
 			fontSize: 12,
 		},
 		style: {
@@ -61,6 +66,14 @@ const AppNavigator = TabNavigator({
 
 
 }, TabBarOptions);
+
+const customTextProps = {
+  style: {
+    fontFamily: 'Verdana',
+  }
+};
+
+setCustomText(customTextProps);
 
 export {AppNavigator};
 export {Pages};
