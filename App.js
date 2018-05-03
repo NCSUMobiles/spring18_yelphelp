@@ -41,7 +41,7 @@ const TabBarOptions = {
   tabBarOptions: {
 		activeTintColor: '#f75d59',
 		labelStyle: {
-      fontFamily: 'Verdana',
+      //fontFamily: 'Verdana',
 			fontSize: 12,
 		},
 		style: {
@@ -69,7 +69,7 @@ const AppNavigator = TabNavigator({
 
 const customTextProps = {
   style: {
-    fontFamily: 'Verdana',
+    //fontFamily: 'Verdana',
   }
 };
 

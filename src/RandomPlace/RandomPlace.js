@@ -196,10 +196,10 @@ class RandomPlace extends React.Component<ScreenProps<>> {
           </View>}
 
     		<View style={{alignItems:'center'}}>
-    		<TouchableHighlight style={{position:'absolute'}} onPress={this.spin.bind(this)} >
+      		<TouchableHighlight style={{position:'absolute'}} onPress={this.spin.bind(this)} >
     				<Animated.Image style={animationStyle} source={require('./roulette.png')}>
     				</Animated.Image>
-    		</TouchableHighlight>
+      		</TouchableHighlight>
     		</View>
       </View>
     </View>
