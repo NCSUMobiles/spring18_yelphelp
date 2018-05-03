@@ -200,7 +200,7 @@ class MySuggestions extends React.Component<ScreenProps<>> {
             />
         }
         sections={[
-          {title: "MY SUGGESTIONS", data: this.state.businesses }//[testBusiness, testBusiness, testBusiness, testBusiness, testBusiness]}
+          {title: "MY FAVORITES", data: this.state.businesses }//[testBusiness, testBusiness, testBusiness, testBusiness, testBusiness]}
           // {title: "RESULTS", data: [testBusiness, testBusiness, testBusiness]}
         ]}
 
