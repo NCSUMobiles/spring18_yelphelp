@@ -17,9 +17,9 @@ class LandingPage extends React.Component<ScreenProps<>> {
 		</View>
 		<TouchableHighlight onPress={() => this.props.navigation.navigate('RandomPlace')}>
 			<View style={{alignItems:'center'}}>
-				<View style={{height:150,width:200,backgroundColor:'#2d3436'}}>
+				<View style={styles.outsideFrame}>
 					<Text style={{color:'white',textAlign:'center'}}>Name</Text>
-					<View style={{top:2,height:129,width:200,backgroundColor:'#c8c8c8'}}>
+					<View style={styles.insideFrame}>
 						<Text style={{textAlign:'center', top:50}}># in the card example</Text>
 					</View>
 				</View>
@@ -28,9 +28,9 @@ class LandingPage extends React.Component<ScreenProps<>> {
 		<View style={{height:50}}></View>
 		<TouchableHighlight onPress={() => this.props.navigation.navigate('MySuggestions')}>
 			<View style={{alignItems:'center'}}>
-				<View style={{height:150,width:200,backgroundColor:'#2d3436'}}>
+				<View style={styles.outsideFrame}>
 					<Text style={{color:'white',textAlign:'center'}}>Name</Text>
-					<View style={{top:2,height:129,width:200,backgroundColor:'#c8c8c8'}}>
+					<View style={styles.insideFrame}>
 						<Text style={{textAlign:'center', top:50}}># in the card example</Text>
 					</View>
 				</View>
@@ -64,6 +64,17 @@ const styles = StyleSheet.create({
   },
   textLink: {
 
+  },
+  outsideFrame: {
+	  height:150,
+	  width:200,
+	  backgroundColor:'#2d3436'
+  },
+  insideFrame: {
+	  top:2,
+	  height:129,
+	  width:200,
+	  backgroundColor:'#c8c8c8'
   }
 
 });

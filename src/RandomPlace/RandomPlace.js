@@ -33,8 +33,8 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 			price: -1,
 			radius: -1,
 			term: "",
-			showView: null,
-			refresh: false,
+			show: false,
+			timePassed: false,
 		}
 		
 		
@@ -145,10 +145,13 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 		}
 		).start();	
 		this.setView();
+		
+		setTimeout(() => {this.setState({show: !this.state.show});}, 6900);	
 	}
 	
-	setView() {
-		this.showView = 		
+	setView = () => {
+		if( this.state.show ) {
+		return(	
 		(<View style={{alignItems:'center'}}>
 				<View style={{height:300,width:300,backgroundColor:'#2d3436'}}>
 					<Text style={{color:'white',textAlign:'center'}}>Name</Text>
@@ -156,11 +159,13 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 						<Text style={{textAlign:'center', top:50}}># in the card example</Text>
 					</View>
 				</View>
-			</View>);
+		</View>)) } else {
+			return ( null )
+		}
 	}
 	
-	refresh() {
-		this.showView = null;
+	refresh = () => {
+		this.setState({show: !this.state.show});
 	}
 
 
@@ -177,7 +182,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
   	  <View style={styles.form} >
     		<View style={styles.title}>
 				   <View style={{width:Dimensions.get('window').width*(.4)}}></View>
-				   <TouchableHighlight style={{position:'absolute'}} onPress={this.refresh()}>
+					<TouchableHighlight style={{position:'absolute'}} onPress={() => {this.setState({show: false});}} >
 						<Image source={require('./reload.png')} style={{width:60, height:50}} />
 					</TouchableHighlight>
     			<Image source={require('./yelphelp(final).png')} style={{width:60, height:50}} />
@@ -221,7 +226,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
     		</TouchableHighlight>
     		</View>
 			<View>
-			{this.showView}
+			{this.setView()}
 			</View>
       </View>
     </View>
