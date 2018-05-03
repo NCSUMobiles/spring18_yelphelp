@@ -41,7 +41,6 @@ const TabBarOptions = {
   tabBarOptions: {
 		activeTintColor: '#f75d59',
 		labelStyle: {
-      fontFamily: 'Verdana',
 			fontSize: 12,
 		},
 		style: {
@@ -67,13 +66,6 @@ const AppNavigator = TabNavigator({
 
 }, TabBarOptions);
 
-const customTextProps = {
-  style: {
-    fontFamily: 'Verdana',
-  }
-};
-
-setCustomText(customTextProps);
 
 export {AppNavigator};
 export {Pages};

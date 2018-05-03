@@ -122,8 +122,7 @@ const styles = StyleSheet.create({
   },
   textLink: {
 
-  }
-
+  },
 });
 
 export default LandingPage;

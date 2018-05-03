@@ -271,6 +271,8 @@ const styles = StyleSheet.create({
   listViewContainer: {
     // backgroundColor : '#636e72',
     backgroundColor: '#dfe6e9',
+	borderBottomLeftRadius: 5,
+	borderBottomRightRadius: 5,
   },
 
   container: {
@@ -305,6 +307,8 @@ const styles = StyleSheet.create({
   },
 
   CardHeader:{
+	borderTopRightRadius: 10,
+	borderTopLeftRadius: 10,
     backgroundColor: '#2d3436',
     marginLeft: 5,
     marginRight: 5,
@@ -330,6 +334,8 @@ const styles = StyleSheet.create({
   },
 
   SectionListButtonStyle: {
+	borderBottomLeftRadius: 10,
+	borderBottomRightRadius: 10,
     padding: 5,
     marginLeft: 5,
     marginRight: 5,
