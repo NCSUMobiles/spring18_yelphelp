@@ -66,6 +66,5 @@ const AppNavigator = TabNavigator({
 
 }, TabBarOptions);
 
-
 export {AppNavigator};
 export {Pages};
