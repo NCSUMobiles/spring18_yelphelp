@@ -39,18 +39,30 @@ class MySuggestions extends React.Component<ScreenProps<>> {
   }
 
   async _saveMyFavorites(){
+    console.log("saving favorites");
     try {
-      await AsyncStorage.setItem('@MySuperStore:key', 'I like to save it.');
+      var myJsonString = JSON.stringify(this.state.businesses);
+      await AsyncStorage.setItem('@favorites:businesses', myJsonString);
+      console.log("success");
     } catch (error) {
-      alert("can't save data");
+      console.log("can't save data");
     }
   }
 
   async _loadMyFavorites(){
     try {
-      const value = await AsyncStorage.getItem('@MySuperStore:key');
+      this.state.businesses = [];
+      const value = await AsyncStorage.getItem('@favorites:businesses');
       if (value !== null){
-        console.log(value);
+        // console.log(value);
+        responseJsonBusinesses = value.json();
+        for(i; i<responseJsonBusinesses.length; i++){
+            var newBiz = new Business(responseJsonBusinesses[i]);
+            this.state.businesses.push(newBiz);
+        }
+      }
+      else{
+        console.log("error, buddy");
       }
     } catch (error) {
       alert("can't load data");
@@ -134,7 +146,7 @@ class MySuggestions extends React.Component<ScreenProps<>> {
       navigator.geolocation.getCurrentPosition(
           (position) => {
               this.setState({position});
-              console.log("fetching data");
+              // console.log("fetching data");
               this.fetchData();
           },
           (error) => alert(error),
@@ -270,7 +282,7 @@ class MySuggestions extends React.Component<ScreenProps<>> {
               </View>
 
               <View style={styles.cardButtonStyle}>
-                <TouchableOpacity activeOpacity = {.5} >
+                <TouchableOpacity activeOpacity = {.5} onPress = {() => this._saveMyFavorites()} >
                   <Image
                   style={{width: 60, height: 60}}
                   source={require('./img/disk.png')}
