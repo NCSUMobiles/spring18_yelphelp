@@ -17,7 +17,7 @@ class LandingPage extends React.Component<ScreenProps<>> {
     navigator.geolocation.getCurrentPosition(
         (position) => {
           this.setState({position});
-          console.log("fetching data");
+          // console.log("fetching data");
           this.fetchData();
         },
         (error) => alert(error),
@@ -35,7 +35,7 @@ class LandingPage extends React.Component<ScreenProps<>> {
     apiCall += "&radius=3218";
     apiCall += "&limit=50";
 
-    console.log(apiCall);
+    // console.log(apiCall);
     var yelpKey = 'VEcz4Kbd8TR68oFnT4_mdnWjRL8J5qjeN0bKCMEIPZuODihSHM_9_v-5CCJGm_QM_-kO4hx9DS9u5_5UByUATrgquPE-SeFr6VvjdMhLapg4P1jWA5Gm-gp42U-gWnYx';
 
 

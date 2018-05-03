@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Text, ScrollView, Button, SectionList, Platform, Alert, Image, Linking, TouchableOpacity, RefreshControl} from 'react-native';
+import {StyleSheet, View, Text, ScrollView, Button, SectionList, Platform, Alert, Image, Linking, TouchableOpacity, RefreshControl, AsyncStorage} from 'react-native';
 import { OpenMapDirections } from 'react-native-navigation-directions';
 import call from 'react-native-phone-call'
 
@@ -35,6 +35,25 @@ class MySuggestions extends React.Component<ScreenProps<>> {
       term: "",
       businesses: [],
       refreshing: false,
+    }
+  }
+
+  async _saveMyFavorites(){
+    try {
+      await AsyncStorage.setItem('@MySuperStore:key', 'I like to save it.');
+    } catch (error) {
+      alert("can't save data");
+    }
+  }
+
+  async _loadMyFavorites(){
+    try {
+      const value = await AsyncStorage.getItem('@MySuperStore:key');
+      if (value !== null){
+        console.log(value);
+      }
+    } catch (error) {
+      alert("can't load data");
     }
   }
 
@@ -97,7 +116,8 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 
   componentDidMount() {
     //This will need to be removed when we get disk reads down
-    this.getLocationAndFetchData();
+    // this.getLocationAndFetchData();
+    this._loadMyFavorites();
 
     // when the method call ablove gets deleted, un-comment this section
     // navigator.geolocation.getCurrentPosition(
