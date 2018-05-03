@@ -10,6 +10,10 @@ import {
 import LandingPage from './src/LandingPage/LandingPage.js';
 import MySuggestions from './src/MySuggestions/MySuggestions.js';
 import RandomPlace from './src/RandomPlace/RandomPlace.js';
+import {Image} from 'react-native';
+import image0 from './img/homeIcon.png';
+import image1 from './img/historyIcon.png';
+import image2 from './img/rouletteIcon.png';
 
 
 export default class App extends React.Component {
@@ -39,10 +43,13 @@ const TabBarOptions = {
   tabBarPosition: 'bottom',
   lazyLoad: true,
   tabBarOptions: {
-		activeTintColor: '#f75d59',
-		labelStyle: {
-      fontFamily: 'Verdana',
-			fontSize: 12,
+    showIcon: false,
+    labelStyle: {
+      fontSize: 14,
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
 		},
 		style: {
 			backgroundColor: 'black',
@@ -53,18 +60,19 @@ const TabBarOptions = {
 const AppNavigator = TabNavigator({
 	LandingPage: { screen: LandingPage,
                     navigationOptions: {
-                      title: "Landing Page"
+                      title: "Landing Page",
+                      activeTintColor: '#f75d59',
                     }},
     RandomPlace: { screen: RandomPlace,
                   navigationOptions: {
-                    title: "Randomizer"
+                      title: "Randomizer",
+                      activeTintColor: '#f75d59',
                   }},
     MySuggestions: { screen: MySuggestions,
-					navigationOptions: {
-					  title: "My Suggestions",
+					       navigationOptions: {
+					            title: "My Suggestions",
+                      activeTintColor: '#f75d59',
 					}},
-
-
 }, TabBarOptions);
 
 const customTextProps = {

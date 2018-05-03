@@ -56,7 +56,6 @@ class RandomPlace extends React.Component<ScreenProps<>> {
     navigator.geolocation.getCurrentPosition(
         (position) => {
           this.setState({position});
-          console.log("fetching data");
           this.fetchData();
         },
         (error) => alert(error),

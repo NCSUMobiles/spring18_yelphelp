@@ -72,7 +72,7 @@ class LandingPage extends React.Component<ScreenProps<>> {
     		<Image source={require('./yelphelp(final).png')} style={{width:90, height:75}} />
 		</View>
 		<View style={{height:Dimensions.get('window').height*(.15), top:Dimensions.get('window').height*(.03)}}>
-				<Text style={styles.textTitle}>Welcome back you!</Text>
+				<Text style={styles.textTitle}>Welcome back, you!</Text>
 		</View>
 		<TouchableHighlight onPress={() => this.props.navigation.navigate('RandomPlace')}>
 			<View style={{alignItems:'center'}}>
