@@ -192,9 +192,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
                 <Text style={{fontSize: 18, paddingBottom: 5}}> { this.state.selectedBusiness.name }  <Text style={{color: 'green'}}>{ this.state.selectedBusiness.price }</Text>
                 </Text>
 
-                <Text style={styles.addressText}>
-                  { this.state.selectedBusiness.location.display_address[0]}, 
-                { this.state.selectedBusiness.location.city}, { this.state.selectedBusiness.location.state} { this.state.selectedBusiness.location.zip_code}
+                <Text style={styles.addressText}> { this.state.selectedBusiness.location.display_address[0]}, { this.state.selectedBusiness.location.city}, { this.state.selectedBusiness.location.state} { this.state.selectedBusiness.location.zip_code}
                 </Text>
 
                 <Text style={styles.cardLink}
