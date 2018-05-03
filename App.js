@@ -1,19 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, Platform, StyleSheet, Text, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { StackNavigator, DrawerNavigator, TabNavigator } from "react-navigation";
-
-import {
-  setCustomText
-} from 'react-native-global-props';
-
+import {setCustomText} from 'react-native-global-props';
 import LandingPage from './src/LandingPage/LandingPage.js';
 import MySuggestions from './src/MySuggestions/MySuggestions.js';
 import RandomPlace from './src/RandomPlace/RandomPlace.js';
-import {Image} from 'react-native';
-import image0 from './img/homeIcon.png';
-import image1 from './img/historyIcon.png';
-import image2 from './img/rouletteIcon.png';
+import image0 from './img/homeIcon3.png';
+import image1 from './img/historyIcon3.png';
+import image2 from './img/hamburgerIcon3.png';
 
 
 export default class App extends React.Component {
@@ -23,8 +18,6 @@ export default class App extends React.Component {
     );
   }
 }
-
-
 
 const StackNavigatorOptions = {
     // headerMode: "none",
@@ -37,47 +30,45 @@ const Pages = StackNavigator({
 	LandingPage:{screen:LandingPage},
 	MySuggestions:{screen:MySuggestions},
 	RandomPlace:{screen:RandomPlace}
-})
+});
 
 const TabBarOptions = {
   tabBarPosition: 'bottom',
   lazyLoad: true,
   tabBarOptions: {
-    showIcon: false,
-    labelStyle: {
-      fontSize: 14,
-      flex: 1,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
+    activeTintColor: Platform.OS === 'android' ? '#f75d59' : '#41b1f9',
+		labelStyle: {
+			fontSize: 12,
 		},
 		style: {
-			backgroundColor: 'black',
+      backgroundColor: Platform.OS === 'android' ? 'black' : 'lightgrey',
 		},
    }
-}
+};
 
 const AppNavigator = TabNavigator({
 	LandingPage: { screen: LandingPage,
                     navigationOptions: {
                       title: "Landing Page",
-                      activeTintColor: '#f75d59',
+                      tabBarIcon: <Image source={require('./img/homeIcon3.png')}/>,
                     }},
     RandomPlace: { screen: RandomPlace,
                   navigationOptions: {
                       title: "Randomizer",
-                      activeTintColor: '#f75d59',
+                      tabBarIcon: <Image source={require('./img/hamburgerIcon3.png')}/>,
                   }},
     MySuggestions: { screen: MySuggestions,
 					       navigationOptions: {
 					            title: "My Suggestions",
-                      activeTintColor: '#f75d59',
+                      tabBarIcon: <Image source={require('./img/historyIcon3.png')}/>,
 					}},
 }, TabBarOptions);
 
+
+
 const customTextProps = {
   style: {
-    fontFamily: 'Verdana',
+    fontFamily: Platform.OS === 'android' ? 'Roboto' : 'Verdana',
   }
 };
 

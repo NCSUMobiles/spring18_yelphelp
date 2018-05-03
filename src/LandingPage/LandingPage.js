@@ -6,7 +6,7 @@ class LandingPage extends React.Component<ScreenProps<>> {
   constructor(props){
     super(props);
     this.state = {
-      numberOfBusinessesWithinTwoMiles : "Searching for close places...",
+      numberOfBusinessesWithinTwoMiles : "...",
     }
   }
 
@@ -51,10 +51,10 @@ class LandingPage extends React.Component<ScreenProps<>> {
         var responseJsonBusinesses = responseJson.businesses;
         var arrayLength = responseJsonBusinesses.length;
         if (arrayLength >= 50){
-          this.setState({numberOfBusinessesWithinTwoMiles: "At least " + arrayLength + " businesses within 2 miles"});
+          this.setState({numberOfBusinessesWithinTwoMiles: "> " + arrayLength});
         }
         else{
-          this.setState({numberOfBusinessesWithinTwoMiles: arrayLength + " businesses within 2 miles"});
+          this.setState({numberOfBusinessesWithinTwoMiles: arrayLength});
         }
       })
       .catch((error) =>{
@@ -74,27 +74,32 @@ class LandingPage extends React.Component<ScreenProps<>> {
 		<View style={{height:Dimensions.get('window').height*(.15), top:Dimensions.get('window').height*(.03)}}>
 				<Text style={styles.textTitle}>Welcome back, you!</Text>
 		</View>
-		<TouchableHighlight onPress={() => this.props.navigation.navigate('RandomPlace')}>
-			<View style={{alignItems:'center'}}>
-				<View style={{height:150,width:200,backgroundColor:'#2d3436'}}>
-					<Text style={{color:'white',textAlign:'center'}}>Find a random place to eat</Text>
-					<View style={{top:2,height:129,width:200,backgroundColor:'#c8c8c8'}}>
-						<Text style={{textAlign:'center', top:50}}>{this.state.numberOfBusinessesWithinTwoMiles}</Text>
-					</View>
-				</View>
-			</View>
-		</TouchableHighlight>
-		<View style={{height:50}}></View>
-		<TouchableHighlight onPress={() => this.props.navigation.navigate('MySuggestions')}>
-			<View style={{alignItems:'center'}}>
-				<View style={{height:150,width:200,backgroundColor:'#2d3436'}}>
-					<Text style={{color:'white',textAlign:'center'}}>Lorem Ipsum</Text>
-					<View style={{top:2,height:129,width:200,backgroundColor:'#c8c8c8'}}>
-						<Text style={{textAlign:'center', top:50}}># in the card example</Text>
-					</View>
-				</View>
-			</View>
-		</TouchableHighlight>
+
+
+      <TouchableHighlight onPress={() => this.props.navigation.navigate('RandomPlace')} style={styles.bigButton}>
+        <View style={styles.listViewContainer}>
+          <View style={styles.CardHeader}>
+            <Text style={styles.headerText}> PLACES CLOSE TO ME </Text>
+          </View>
+          <View style={styles.cardContent}>
+            <Text style={styles.bigNumberText}> {this.state.numberOfBusinessesWithinTwoMiles} </Text>
+          </View>
+        </View>
+      </TouchableHighlight>
+
+      <View style={{height:30}}></View>
+
+
+      <TouchableHighlight onPress={() => this.props.navigation.navigate('MySuggestions')} style={styles.bigButton}>
+        <View style={styles.listViewContainer}>
+          <View style={styles.CardHeader}>
+            <Text style={styles.headerText}> SAVED PLACES </Text>
+          </View>
+          <View style={styles.cardContent}>
+            <Text style={styles.bigNumberText}> 100 </Text>
+          </View>
+        </View>
+  		</TouchableHighlight>
 		</View>
 		</View>
 
@@ -103,11 +108,12 @@ class LandingPage extends React.Component<ScreenProps<>> {
 }
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     backgroundColor: '#ff0000',
   },
-    textTitle: {
+  textTitle: {
     //fontFamily: 'Verdana',
   	fontSize: 22,
   	textShadowOffset: {width:2, height:2},
@@ -122,8 +128,64 @@ const styles = StyleSheet.create({
   },
   textLink: {
 
-  }
+  },
+  cardView: {
+    alignItems:'center'
+  },
 
+  listViewContainer: {
+    backgroundColor: 'white',
+    borderRadius: 5,
+  },
+  CardHeader:{
+    backgroundColor: '#2d3436',
+    marginLeft: 0,
+    marginRight: 0,
+    marginTop: 0,
+    borderTopRightRadius: 5,
+    borderTopLeftRadius: 5,
+
+  },
+  headerText:{
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: 'bold',
+    margin: 5,
+
+  },
+  // SectionListItemStyle:{
+  //   padding: 0,
+  //   marginLeft: 0,
+  //   marginRight: 0,
+  //   flex: 1,
+  //   flexDirection: 'row',
+  //   backgroundColor : '#FFF',
+  //   height: 150,
+  // },
+
+  bigNumberText: {
+    marginTop: 20,
+    marginBottom: 0,
+    fontSize: 50,
+    textAlign: 'center',
+    height: 100,
+
+
+  },
+  cardContent: {
+    backgroundColor: 'white',
+    alignItems: 'center',
+    backgroundColor: '#00000000',
+
+
+    // height: 100,
+  },
+  bigButton: {
+
+    marginLeft: 75,
+    marginRight: 75,
+
+  }
 });
 
 export default LandingPage;

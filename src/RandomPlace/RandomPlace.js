@@ -2,6 +2,10 @@ import React from 'react';
 import {StyleSheet, View, Text, ScrollView, Picker, Button, Image, TextInput, TouchableHighlight, Dimensions, Animated,  Platform, Alert, Linking, TouchableOpacity} from 'react-native';
 //import OAuthSimple from 'oauthsimple'
 import image from '../img/yelphelp(final).png'
+import { OpenMapDirections } from 'react-native-navigation-directions';
+import call from 'react-native-phone-call'
+
+
 
 class Business {
   constructor(jsonBusiness){
@@ -33,7 +37,11 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 			price: -1,
 			radius: -1,
 			term: "",
+			show: false,
+			timePassed: false,
 		}
+		
+		
 	}
 
   componentDidMount() {
@@ -129,7 +137,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 		} catch (error) {
 			// An error occurred!
 		}
-
+		
 		this.state.spinValue.setValue(0);
 		Animated.timing(
 		this.state.spinValue,
@@ -137,9 +145,126 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 			toValue: 1,
 			duration: 7000
 		}
-		).start();
+		).start();	
+		this.setView();
+		
+		setTimeout(() => {this.setState({show: !this.state.show});}, 6900);	
 	}
+	
+	setView = () => {
+		if( this.state.show ) {
+		return(	
+		(<View style={styles.listViewContainer}>
+            <View style={styles.CardHeader}>
+              <Text style={styles.headerText}> { this.state.selectedBusiness.name } </Text>
+            </View>
+            <View style={styles.SectionListItemStyle}>
+              <View>
+                <Image
+                  style={{width: 130, height: 130}}
+                  source={{uri: this.state.selectedBusiness.image_url}}
+                />
+              </View>
+              <View>
+                <Text style={styles.cardText}> Rating: { this.state.selectedBusiness.rating } </Text>
+                <Text style={styles.cardText}> Price: { this.state.selectedBusiness.price } </Text>
 
+                <Text style={styles.cardLink}
+                      onPress={() => Linking.openURL(this.state.selectedBusiness.url)}>
+                    Link
+                </Text>
+
+                <Text style={styles.cardText}> {this.state.selectedBusiness.display_phone} </Text>
+              </View>
+            </View>
+
+            <View style={styles.SectionListButtonStyle}>
+              <View style={styles.cardButtonStyle}>
+                <TouchableOpacity activeOpacity = {.5} onPress = {() => this._callShowDirections(this.state.selectedBusiness.coordinates)} >
+                  <Image
+                  style={{width: 60, height: 60}}
+                  source={require('./img/directions.png')}
+                  />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.cardButtonStyle}>
+                <TouchableOpacity activeOpacity = {.5} onPress = {() => this._makeCall(this.state.selectedBusiness.phone)}>
+                  <Image
+                  style={{width: 60, height: 60}}
+                  source={require('./img/phone.png')}
+                  />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.cardButtonStyle}>
+                <TouchableOpacity activeOpacity = {.5} >
+                  <Image
+                  style={{width: 60, height: 60}}
+                  source={require('./img/disk.png')}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>)) } else {
+			return ( null )
+		}
+	}
+	
+	 _callShowDirections = (businessLocations) => {
+
+    if (this.state.position.coords.longitude == null){
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.setState({position});
+          const startPoint = {
+            longitude: this.state.position.coords.longitude,
+            latitude: this.state.position.coords.latitude
+          }
+
+          const endPoint = {
+            longitude: parseFloat(businessLocations.longitude) ,
+            latitude: parseFloat(businessLocations.latitude)
+          }
+
+      		const transportPlan = 'd';
+
+          OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
+            console.log(res)
+          });
+        },
+        (error) => alert(error),
+        {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+      );
+    }
+    else{
+      const startPoint = {
+        longitude: this.state.position.coords.longitude,
+        latitude: this.state.position.coords.latitude
+      }
+
+      const endPoint = {
+        longitude: parseFloat(businessLocations.longitude) ,
+        latitude: parseFloat(businessLocations.latitude)
+      }
+
+      const transportPlan = 'd';
+
+      OpenMapDirections(startPoint, endPoint, transportPlan).then(res => {
+        console.log(res)
+      });
+    }
+  }
+
+    _makeCall(businessPhone){
+
+    const args = {
+      number: businessPhone, // String value with the number to call
+      prompt: true // Optional boolean property. Determines if the user should be prompt prior to the call
+    }
+
+    call(args).catch(console.error)
+  }
 
   render() {
 	  let animationStyle = {
@@ -154,70 +279,29 @@ class RandomPlace extends React.Component<ScreenProps<>> {
     return (
     <View style= {styles.container}>
   	  <View style={styles.form} >
+	  
     		<View style={styles.title}>
-    			<Image source={require('./yelphelp(final).png')} style={{width:60, height:50}} />
+				   <View style={{width:Dimensions.get('window').width*(.4), }}></View>
+					<TouchableHighlight style={{position:'absolute', marginLeft:5}} onPress={() => {this.setState({show: false});}} >
+						<Image source={require('./reload.png')} style={{width:60, height:50}} />
+					</TouchableHighlight>
+    			<Image source={require('./yelphelp(final).png')} style={{width:100, height:80}} />
     		</View>
 
-
-    		<View style={styles.categories}>
-    			<Text style={{color: 'white',fontSize:16}} > Select a Category of Food </Text>
-    			<View style={{width:10}} />
-    			<Picker style={{width: 150, height:30, color:'black'}}>
-    				<Picker.Item label = "Mexican" value = "mex" />
-    				<Picker.Item label = "Chinese" value = "chin" />
-    			</Picker>
-    		</View>
-
-    		<View style={styles.categories}>
-    			<Text style={{color: 'white',fontSize:16, borderColor:'white'}} > Max Radius </Text>
-    			<View style={{width:10}} />
-    			<Picker style={{width: 100, height:25, color:'black'}}>
-    				<Picker.Item label = "5" value = "five" />
-    				<Picker.Item label = "10" value = "ten" />
-    				<Picker.Item label = "25" value = "twenty-five" />
-    				<Picker.Item label = "50" value = "fifty" />
-    			</Picker>
-    		</View>
-
-    		<View style={styles.categories}>
-    			<Text style={{color: 'white',fontSize:16}} > Price Range </Text>
-    			<View style={{width:10}} />
-    			<TextInput textAlign = 'center' style={{height: 25, width:25, borderColor: 'white', borderWidth: 1}} />
-    			<View style={{width:5}} />
-    			<Text style={{color: 'black',fontSize:16}} > to </Text>
-    			<View style={{width:5}} />
-    			<TextInput textAlign = 'center' style={{height: 25, width:25, borderColor: 'white', borderWidth: 1}} />
-    		</View>
-
-        {this.state.selectedBusiness &&
-          <View style={styles.resultCard}>
-            <Text>Spun</Text>
-          </View>}
-
-    		<View style={{alignItems:'center'}}>
+    		<View style={{alignItems:'center', top:Dimensions.get('window').height*(.1)}}>
     		<TouchableHighlight style={{position:'absolute'}} onPress={this.spin.bind(this)} >
     				<Animated.Image style={animationStyle} source={require('./roulette.png')}>
     				</Animated.Image>
     		</TouchableHighlight>
+			<View>
+			{this.setView()}
+			</View>
     		</View>
       </View>
     </View>
 
     );
   }
-}
-
-class Spinner extends React.Component {
-
-
-	render() {
-		return (
-		<Animated.Image style={animationStyle} source={require('./roulette.png')}>
-
-		</Animated.Image>
-
-		)
-	}
 }
 
 const styles = StyleSheet.create({
@@ -233,7 +317,8 @@ const styles = StyleSheet.create({
   title: {
   	alignItems: 'center',
   	height: 80,
-  	top: 30
+  	top: 30,
+	flexDirection: 'row',
   },
   form: {
 	  flex: 1,
@@ -241,6 +326,58 @@ const styles = StyleSheet.create({
   },
   spinner: {
 	  position:'absolute'
+  },
+  SectionListItemStyle:{
+    padding: 5,
+    marginLeft: 5,
+    marginRight: 5,
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor : '#FFF',
+  },
+
+  CardHeader:{
+    backgroundColor: '#2d3436',
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop: 5,
+  },
+
+  headerText:{
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: 'bold',
+    margin: 5,
+  },
+
+  cardText: {
+    fontSize: 20,
+  },
+
+  cardLink: {
+    color: 'blue',
+    fontSize : 20,
+    textDecorationLine: 'underline',
+    marginLeft : 5,
+  },
+
+  SectionListButtonStyle: {
+    padding: 5,
+    marginLeft: 5,
+    marginRight: 5,
+    marginBottom: 5,
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor : '#FFF',
+    justifyContent: 'center',
+  },
+
+  cardButtonStyle: {
+    margin: 15,
+  },
+  listViewContainer: {
+    // backgroundColor : '#636e72',
+    backgroundColor: '#dfe6e9',
   },
 
 
