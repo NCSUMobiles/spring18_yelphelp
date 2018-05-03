@@ -144,9 +144,6 @@ const styles = StyleSheet.create({
     marginTop: 0,
     borderTopRightRadius: 5,
     borderTopLeftRadius: 5,
-	shadowColor: '#e3e3e3',
-	shadowRadius: 50,
-    shadowOpacity: 1.0
 
   },
   headerText:{
