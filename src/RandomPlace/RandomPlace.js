@@ -115,10 +115,10 @@ class RandomPlace extends React.Component<ScreenProps<>> {
         var responseJsonBusinesses = responseJson.businesses;
         var arrayLength = responseJsonBusinesses.length;
         var selectedBusiness = Math.floor((Math.random() * arrayLength) + 1);
-        console.log("selected business " + selectedBusiness);
         console.log(responseJsonBusinesses[selectedBusiness]);
         this.state.selectedBusiness = new Business(responseJsonBusinesses[selectedBusiness]);
         console.log(this.state.selectedBusiness.name);
+
 
       })
       .catch((error) =>{
@@ -151,28 +151,56 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 		
 		setTimeout(() => {this.setState({show: !this.state.show});}, 6900);	
 	}
-	
+  renderStars(){
+    const res = [];
+  	for(let i = 1; i <= 5; i++) {
+      if(i <= this.state.selectedBusiness.rating ) {
+        res.push(
+          <Image 
+          style={{width:25, height:25}}
+          source={require('./img/1x/star-gold.png')}
+          key={'star_'+i} />
+        );
+      }
+      else {
+        res.push(<Image 
+          style={{width:25, height:25}}
+          source={require('./img/1x/star-gray.png')}
+          key={'star_'+i} />
+        );
+      }
+    }
+    return res;
+  }
 	setView = () => {
 		if( this.state.show ) {
 		return(	
 		(<View style={styles.listViewContainer}>
             <View style={styles.CardHeader}>
-              <Text style={styles.headerText}> { this.state.selectedBusiness.name } </Text>
+              <Text style={styles.headerText}> { this.state.selectedBusiness.categories[0].title.toUpperCase() } </Text>
+              <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                {this.renderStars()}
+              </View>
             </View>
             <View style={styles.SectionListItemStyle}>
               <View>
                 <Image
-                  style={{width: 130, height: 130}}
+                  style={{width: Dimensions.get('window').width -25, height:250}}
                   source={{uri: this.state.selectedBusiness.image_url}}
                 />
               </View>
               <View>
-                <Text style={styles.cardText}> Rating: { this.state.selectedBusiness.rating } </Text>
-                <Text style={styles.cardText}> Price: { this.state.selectedBusiness.price } </Text>
+                <Text style={{fontSize: 18, paddingBottom: 5}}> { this.state.selectedBusiness.name }  <Text style={{color: 'green'}}>{ this.state.selectedBusiness.price }</Text>
+                </Text>
+
+                <Text style={styles.addressText}>
+                  { this.state.selectedBusiness.location.display_address[0]}, 
+                { this.state.selectedBusiness.location.city}, { this.state.selectedBusiness.location.state} { this.state.selectedBusiness.location.zip_code}
+                </Text>
 
                 <Text style={styles.cardLink}
                       onPress={() => Linking.openURL(this.state.selectedBusiness.url)}>
-                    Link
+                    Show Reviews
                 </Text>
 
                 <Text style={styles.cardText}> {this.state.selectedBusiness.display_phone} </Text>
@@ -180,32 +208,24 @@ class RandomPlace extends React.Component<ScreenProps<>> {
             </View>
 
             <View style={styles.SectionListButtonStyle}>
-              <View style={styles.cardButtonStyle}>
-                <TouchableOpacity activeOpacity = {.5} onPress = {() => this._callShowDirections(this.state.selectedBusiness.coordinates)} >
-                  <Image
-                  style={{width: 60, height: 60}}
-                  source={require('./img/directions.png')}
-                  />
-                </TouchableOpacity>
-              </View>
-
-              <View style={styles.cardButtonStyle}>
-                <TouchableOpacity activeOpacity = {.5} onPress = {() => this._makeCall(this.state.selectedBusiness.phone)}>
-                  <Image
-                  style={{width: 60, height: 60}}
-                  source={require('./img/phone.png')}
-                  />
-                </TouchableOpacity>
-              </View>
-
-              <View style={styles.cardButtonStyle}>
-                <TouchableOpacity activeOpacity = {.5} >
-                  <Image
-                  style={{width: 60, height: 60}}
-                  source={require('./img/disk.png')}
-                  />
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity activeOpacity = {.5} onPress = {() => this._callShowDirections(this.state.selectedBusiness.coordinates)} >
+                <Image
+                style={{width: 20, height: 20}}
+                source={require('./img/directions.png')}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity activeOpacity = {.5} onPress = {() => this._makeCall(this.state.selectedBusiness.phone)}>
+                <Image
+                style={{width: 20, height: 20}}
+                source={require('./img/phone.png')}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity activeOpacity = {.5} >
+                <Image
+                style={{width: 20, height: 20}}
+                source={require('./img/disk.png')}
+                />
+              </TouchableOpacity>
             </View>
           </View>)) } else {
 			return ( null )
@@ -330,55 +350,58 @@ const styles = StyleSheet.create({
   },
   SectionListItemStyle:{
     padding: 5,
-    marginLeft: 5,
-    marginRight: 5,
-    flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     backgroundColor : '#FFF',
   },
 
   CardHeader:{
-    backgroundColor: '#2d3436',
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 5,
+    margin: 5,
+    marginLeft: 10,
+    marginRight:10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 
   headerText:{
-    color: '#fff',
+    color: '#696969',
     fontSize: 24,
-    fontWeight: 'bold',
     margin: 5,
   },
 
   cardText: {
-    fontSize: 20,
+    fontSize: 16,
+  },
+
+  addressText: {
+    fontSize: 16,
+    fontStyle: 'italic',
   },
 
   cardLink: {
     color: 'blue',
-    fontSize : 20,
-    textDecorationLine: 'underline',
+    fontSize : 16,
     marginLeft : 5,
   },
 
   SectionListButtonStyle: {
-    padding: 5,
-    marginLeft: 5,
-    marginRight: 5,
+    padding: 10,
     marginBottom: 5,
-    flex: 1,
     flexDirection: 'row',
+    justifyContent: 'space-around',
     backgroundColor : '#FFF',
-    justifyContent: 'center',
+    
   },
 
   cardButtonStyle: {
-    margin: 15,
+    margin: 0,
   },
   listViewContainer: {
     // backgroundColor : '#636e72',
     backgroundColor: '#dfe6e9',
+    borderWidth: 2,
+    borderColor: '#dfe6e9',
+    borderRadius: 15,
   },
 
 

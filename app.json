@@ -1,7 +1,7 @@
 {
   "expo": {
     "slug": "dustin",
-    "name": "Netflix Recommender",
+    "name": "Yelp Help",
     "sdkVersion": "25.0.0",
     "privacy": "public"
   }
