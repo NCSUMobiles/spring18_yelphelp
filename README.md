@@ -230,3 +230,6 @@ If this causes problems for you, you may want to try changing your terminal's co
 ## Yelp Help Screenshots
 
 Included here are some screenshots from the Yelp Help application. The first set of images show the home screen, action screen, and favorites screen for the iOS version of the app.
+
+![yelphelphomeios](https://user-images.githubusercontent.com/35307498/39610649-e54440ba-4f1f-11e8-8724-6d2b753fa4aa.png)
+
