@@ -153,6 +153,8 @@ class MySuggestions extends React.Component<ScreenProps<>> {
       // let's make sure that the stores are open
       apiCall += "&is_closed=false";
       apiCall += "&limit=50";
+      apiCall += "&is_closed=false";
+      apiCall += "&radius=3218";
       var yelpKey = 'VEcz4Kbd8TR68oFnT4_mdnWjRL8J5qjeN0bKCMEIPZuODihSHM_9_v-5CCJGm_QM_-kO4hx9DS9u5_5UByUATrgquPE-SeFr6VvjdMhLapg4P1jWA5Gm-gp42U-gWnYx';
 
 
@@ -222,7 +224,7 @@ class MySuggestions extends React.Component<ScreenProps<>> {
             />
         }
         sections={[
-          {title: "MY FAVORITES", data: this.state.businesses }//[testBusiness, testBusiness, testBusiness, testBusiness, testBusiness]}
+          {title: "CLOSE BY", data: this.state.businesses }//[testBusiness, testBusiness, testBusiness, testBusiness, testBusiness]}
           // {title: "RESULTS", data: [testBusiness, testBusiness, testBusiness]}
         ]}
 

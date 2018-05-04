@@ -75,6 +75,8 @@ class LandingPage extends React.Component<ScreenProps<>> {
 		</View>
 
 
+      <View style={{height:30}}></View>
+
       <TouchableHighlight onPress={() => this.props.navigation.navigate('RandomPlace')} style={styles.bigButton}>
         <View style={styles.listViewContainer}>
           <View style={styles.CardHeader}>
@@ -86,19 +88,10 @@ class LandingPage extends React.Component<ScreenProps<>> {
         </View>
       </TouchableHighlight>
 
-      <View style={{height:30}}></View>
 
 
-      <TouchableHighlight onPress={() => this.props.navigation.navigate('MySuggestions')} style={styles.bigButton}>
-        <View style={styles.listViewContainer}>
-          <View style={styles.CardHeader}>
-            <Text style={styles.headerText}> SAVED PLACES </Text>
-          </View>
-          <View style={styles.cardContent}>
-            <Text style={styles.bigNumberText}> 100 </Text>
-          </View>
-        </View>
-  		</TouchableHighlight>
+
+
 		</View>
 		</View>
 
@@ -107,6 +100,17 @@ class LandingPage extends React.Component<ScreenProps<>> {
 }
 
 const styles = StyleSheet.create({
+
+  // <TouchableHighlight onPress={() => this.props.navigation.navigate('MySuggestions')} style={styles.bigButton}>
+  //   <View style={styles.listViewContainer}>
+  //     <View style={styles.CardHeader}>
+  //       <Text style={styles.headerText}> SAVED PLACES </Text>
+  //     </View>
+  //     <View style={styles.cardContent}>
+  //       <Text style={styles.bigNumberText}> 100 </Text>
+  //     </View>
+  //   </View>
+  // </TouchableHighlight>
 
   container: {
     flex: 1,

@@ -143,7 +143,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 		this.state.spinValue,
 		{
 			toValue: 1,
-			duration: 3000
+			duration: 7000
 		}
 		).start();
 		this.setView();
