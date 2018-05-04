@@ -229,7 +229,20 @@ If this causes problems for you, you may want to try changing your terminal's co
 
 ## Yelp Help Screenshots
 
-Included here are some screenshots from the Yelp Help application. The first set of images show the home screen, action screen, and favorites screen for the iOS version of the app.
+Included here are some screenshots from the Yelp Help application. 
+
+### iOS Application Screenshots
+
+The first set of images show the home screen, action screen, and favorites screen for the iOS version of the app.
 
 ![yelphelphomeios](https://user-images.githubusercontent.com/35307498/39610649-e54440ba-4f1f-11e8-8724-6d2b753fa4aa.png)
 
+![yelphelpwheelios](https://user-images.githubusercontent.com/35307498/39610804-da4ae9c4-4f20-11e8-9584-1ab73d675798.jpeg)
+
+![yelphelpresultios](https://user-images.githubusercontent.com/35307498/39610807-e1008562-4f20-11e8-9f0d-0ce0b8ccc975.jpeg)
+
+![yelphelpfavesios](https://user-images.githubusercontent.com/35307498/39610811-e805239a-4f20-11e8-91ec-009e1ff94ee0.jpeg)
+
+### Android Application Screenshots
+
+The next set of images show the same application screens for the Android version of the Yelp Help app.
