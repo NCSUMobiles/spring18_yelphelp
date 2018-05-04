@@ -34,6 +34,9 @@ Below you'll find information about performing common tasks. The most recent ver
   * [Networking](#networking)
   * [iOS Simulator won't open](#ios-simulator-wont-open)
   * [QR Code does not scan](#qr-code-does-not-scan)
+* [Yelp Help Screenshots](#yelp-help-screenshots)
+  * [iOS Application Screenshots](#ios-application-screenshots)
+  * [Android Application Screenshots](#android-applicaiton-screenshots)
 
 ## Updating to New Releases
 
