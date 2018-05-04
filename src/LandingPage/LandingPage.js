@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: '#b21a05',
+    backgroundColor: '#176543',
   },
   textTitle: {
     //fontFamily: 'Verdana',

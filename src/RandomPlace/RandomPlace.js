@@ -40,8 +40,8 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 			show: false,
 			timePassed: false,
 		}
-		
-		
+
+
 	}
 
   componentDidMount() {
@@ -137,32 +137,32 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 		} catch (error) {
 			// An error occurred!
 		}
-		
+
 		this.state.spinValue.setValue(0);
 		Animated.timing(
 		this.state.spinValue,
 		{
 			toValue: 1,
-			duration: 7000
+			duration: 3000
 		}
-		).start();	
+		).start();
 		this.setView();
-		
-		setTimeout(() => {this.setState({show: !this.state.show});}, 6900);	
+
+		setTimeout(() => {this.setState({show: !this.state.show});}, 6900);
 	}
   renderStars(){
     const res = [];
   	for(let i = 1; i <= 5; i++) {
       if(i <= this.state.selectedBusiness.rating ) {
         res.push(
-          <Image 
+          <Image
           style={{width:25, height:25}}
           source={require('../img/1x/star-gold.png')}
           key={'star_'+i} />
         );
       }
       else {
-        res.push(<Image 
+        res.push(<Image
           style={{width:25, height:25}}
           source={require('../img/1x/star-gray.png')}
           key={'star_'+i} />
@@ -173,7 +173,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
   }
 	setView = () => {
 		if( this.state.show ) {
-		return(	
+		return(
 		(<View style={styles.listViewContainer}>
             <View style={styles.CardHeader}>
               <Text style={styles.headerText}> { this.state.selectedBusiness.categories[0].title.toUpperCase() } </Text>
@@ -228,7 +228,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
 			return ( null )
 		}
 	}
-	
+
 	 _callShowDirections = (businessLocations) => {
 
     if (this.state.position.coords.longitude == null){
@@ -297,7 +297,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
     return (
     <View style= {styles.container}>
   	  <View style={styles.form} >
-	  
+
     		<View style={styles.title}>
 				   <View style={{width:Dimensions.get('window').width*(.4), }}></View>
 					<TouchableHighlight style={{position:'absolute', marginLeft:5}} onPress={() => {this.setState({show: false});}} >
@@ -348,7 +348,7 @@ const styles = StyleSheet.create({
   SectionListItemStyle:{
     padding: 5,
     flexDirection: 'column',
-    backgroundColor : '#FFF',
+    backgroundColor : '#fff',
   },
 
   CardHeader:{
@@ -383,11 +383,13 @@ const styles = StyleSheet.create({
 
   SectionListButtonStyle: {
     padding: 10,
-    marginBottom: 5,
+    marginBottom: 0,
+    borderBottomRightRadius: 15,
+    borderBottomLeftRadius: 15,
     flexDirection: 'row',
     justifyContent: 'space-around',
     backgroundColor : '#FFF',
-    
+
   },
 
   cardButtonStyle: {

@@ -192,14 +192,14 @@ class MySuggestions extends React.Component<ScreenProps<>> {
     for(let i = 1; i <= 5; i++) {
       if(i <= item.rating ) {
         res.push(
-          <Image 
+          <Image
           style={{width:25, height:25}}
           source={require('../img/1x/star-gold.png')}
           key={'star_'+i} />
         );
       }
       else {
-        res.push(<Image 
+        res.push(<Image
           style={{width:25, height:25}}
           source={require('../img/1x/star-gray.png')}
           key={'star_'+i} />
@@ -355,11 +355,13 @@ const styles = StyleSheet.create({
 
   SectionListButtonStyle: {
     padding: 10,
-    marginBottom: 5,
+    marginBottom: 0,
+    borderBottomRightRadius: 15,
+    borderBottomLeftRadius: 15,
     flexDirection: 'row',
     justifyContent: 'space-around',
     backgroundColor : '#FFF',
-    
+
   },
 
   cardButtonStyle: {
