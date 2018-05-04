@@ -157,14 +157,14 @@ class RandomPlace extends React.Component<ScreenProps<>> {
         res.push(
           <Image 
           style={{width:25, height:25}}
-          source={require('./img/1x/star-gold.png')}
+          source={require('../img/1x/star-gold.png')}
           key={'star_'+i} />
         );
       }
       else {
         res.push(<Image 
           style={{width:25, height:25}}
-          source={require('./img/1x/star-gray.png')}
+          source={require('../img/1x/star-gray.png')}
           key={'star_'+i} />
         );
       }
@@ -184,7 +184,7 @@ class RandomPlace extends React.Component<ScreenProps<>> {
             <View style={styles.SectionListItemStyle}>
               <View>
                 <Image
-                  style={{width: Dimensions.get('window').width -25, height:250}}
+                  style={{width: Dimensions.get('window').width -25, height: Dimensions.get('window').height / 3}}
                   source={{uri: this.state.selectedBusiness.image_url}}
                 />
               </View>
@@ -208,19 +208,19 @@ class RandomPlace extends React.Component<ScreenProps<>> {
               <TouchableOpacity activeOpacity = {.5} onPress = {() => this._callShowDirections(this.state.selectedBusiness.coordinates)} >
                 <Image
                 style={{width: 20, height: 20}}
-                source={require('./img/directions.png')}
+                source={require('../img/directions.png')}
                 />
               </TouchableOpacity>
               <TouchableOpacity activeOpacity = {.5} onPress = {() => this._makeCall(this.state.selectedBusiness.phone)}>
                 <Image
                 style={{width: 20, height: 20}}
-                source={require('./img/phone.png')}
+                source={require('../img/phone.png')}
                 />
               </TouchableOpacity>
               <TouchableOpacity activeOpacity = {.5} >
                 <Image
                 style={{width: 20, height: 20}}
-                source={require('./img/disk.png')}
+                source={require('../img/disk.png')}
                 />
               </TouchableOpacity>
             </View>
