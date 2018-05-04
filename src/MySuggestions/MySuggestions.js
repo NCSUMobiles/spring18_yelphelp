@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Text, ScrollView, Button, Dimensions, SectionList, Platform, Alert, Image, Linking, TouchableOpacity, RefreshControl} from 'react-native';
+import {StyleSheet, View, Text, ScrollView, Button, SectionList, Platform, Alert, Image, Linking, TouchableOpacity, RefreshControl} from 'react-native';
 import { OpenMapDirections } from 'react-native-navigation-directions';
 import call from 'react-native-phone-call'
 
@@ -153,8 +153,6 @@ class MySuggestions extends React.Component<ScreenProps<>> {
       // let's make sure that the stores are open
       apiCall += "&is_closed=false";
       apiCall += "&limit=50";
-      apiCall += "&is_closed=false";
-      apiCall += "&radius=3218";
       var yelpKey = 'VEcz4Kbd8TR68oFnT4_mdnWjRL8J5qjeN0bKCMEIPZuODihSHM_9_v-5CCJGm_QM_-kO4hx9DS9u5_5UByUATrgquPE-SeFr6VvjdMhLapg4P1jWA5Gm-gp42U-gWnYx';
 
 
@@ -189,33 +187,11 @@ class MySuggestions extends React.Component<ScreenProps<>> {
       this.setState({refreshing:false});
     }
 
-  renderStars(item){
-    const res = [];
-    for(let i = 1; i <= 5; i++) {
-      if(i <= item.rating ) {
-        res.push(
-          <Image
-          style={{width:25, height:25}}
-          source={require('../img/1x/star-gold.png')}
-          key={'star_'+i} />
-        );
-      }
-      else {
-        res.push(<Image
-          style={{width:25, height:25}}
-          source={require('../img/1x/star-gray.png')}
-          key={'star_'+i} />
-        );
-      }
-    }
-    return res;
-  }
-
   render() {
 
     return (
 
-      <View style={styles.container}>
+      <View style={styles.listViewContainer}>
       <SectionList
         refreshControl={
             <RefreshControl
@@ -224,7 +200,7 @@ class MySuggestions extends React.Component<ScreenProps<>> {
             />
         }
         sections={[
-          {title: "CLOSE BY", data: this.state.businesses }//[testBusiness, testBusiness, testBusiness, testBusiness, testBusiness]}
+          {title: "MY SUGGESTIONS", data: this.state.businesses }//[testBusiness, testBusiness, testBusiness, testBusiness, testBusiness]}
           // {title: "RESULTS", data: [testBusiness, testBusiness, testBusiness]}
         ]}
 
@@ -232,28 +208,22 @@ class MySuggestions extends React.Component<ScreenProps<>> {
         renderItem={ ({item}) =>
           <View style={styles.listViewContainer}>
             <View style={styles.CardHeader}>
-              <Text style={styles.headerText}> { item.categories[0].title.toUpperCase() } </Text>
-              <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                {this.renderStars(item)}
-              </View>
+              <Text style={styles.headerText}> { item.name } </Text>
             </View>
             <View style={styles.SectionListItemStyle}>
               <View>
                 <Image
-                  style={{width: Dimensions.get('window').width -25, height: Dimensions.get('window').height / 3}}
+                  style={{width: 130, height: 130}}
                   source={{uri: item.image_url}}
                 />
               </View>
               <View>
-                <Text style={{fontSize: 18, paddingBottom: 5}}> { item.name }  <Text style={{color: 'green'}}>{ item.price }</Text>
-                </Text>
-
-                <Text style={styles.addressText}> { item.location.display_address[0]}, { item.location.city}, { item.location.state} { item.location.zip_code}
-                </Text>
+                <Text style={styles.cardText}> Rating: { item.rating } </Text>
+                <Text style={styles.cardText}> Price: { item.price } </Text>
 
                 <Text style={styles.cardLink}
                       onPress={() => Linking.openURL(item.url)}>
-                    Show Reviews
+                    Link
                 </Text>
 
                 <Text style={styles.cardText}> {item.display_phone} </Text>
@@ -261,24 +231,32 @@ class MySuggestions extends React.Component<ScreenProps<>> {
             </View>
 
             <View style={styles.SectionListButtonStyle}>
-              <TouchableOpacity activeOpacity = {.5} onPress = {() => this._callShowDirections(item.coordinates)} >
-                <Image
-                style={{width: 20, height: 20}}
-                source={require('../img/directions.png')}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity activeOpacity = {.5} onPress = {() => this._makeCall(item.phone)}>
-                <Image
-                style={{width: 20, height: 20}}
-                source={require('../img/phone.png')}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity activeOpacity = {.5} >
-                <Image
-                style={{width: 20, height: 20}}
-                source={require('../img/disk.png')}
-                />
-              </TouchableOpacity>
+              <View style={styles.cardButtonStyle}>
+                <TouchableOpacity activeOpacity = {.5} onPress = {() => this._callShowDirections(item.coordinates)} >
+                  <Image
+                  style={{width: 60, height: 60}}
+                  source={require('./img/directions.png')}
+                  />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.cardButtonStyle}>
+                <TouchableOpacity activeOpacity = {.5} onPress = {() => this._makeCall(item.phone)}>
+                  <Image
+                  style={{width: 60, height: 60}}
+                  source={require('./img/phone.png')}
+                  />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.cardButtonStyle}>
+                <TouchableOpacity activeOpacity = {.5} >
+                  <Image
+                  style={{width: 60, height: 60}}
+                  source={require('./img/disk.png')}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         }
@@ -291,84 +269,80 @@ class MySuggestions extends React.Component<ScreenProps<>> {
 
 const styles = StyleSheet.create({
   listViewContainer: {
+    // backgroundColor : '#636e72',
     backgroundColor: '#dfe6e9',
-    borderWidth: 2,
-    borderColor: '#dfe6e9',
-    borderRadius: 15,
-    margin: 10,
   },
 
   container: {
-    backgroundColor: '#176543',
+    flex: 1,
+    backgroundColor: '#bdc3c7',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   SectionHeaderStyle:{
-    marginTop: 10,
-    marginBottom: 5,
+    backgroundColor : '#d63031',
     height: 60,
-    flex: .5,
     justifyContent: 'flex-end',
+    flex: 1,
   },
 
   SectionHeaderText:{
     fontSize : 20,
-    borderBottomColor: '#fff',
-    borderBottomWidth: 2,
     padding: 5,
     color: '#fff',
+    fontWeight: 'bold',
     textAlign: 'center',
   },
 
   SectionListItemStyle:{
     padding: 5,
-    flexDirection: 'column',
+    marginLeft: 5,
+    marginRight: 5,
+    flex: 1,
+    flexDirection: 'row',
     backgroundColor : '#FFF',
   },
 
   CardHeader:{
-    margin: 5,
-    marginLeft: 10,
-    marginRight:10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    backgroundColor: '#2d3436',
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop: 5,
   },
 
   headerText:{
-    color: '#696969',
+    color: '#fff',
     fontSize: 24,
+    fontWeight: 'bold',
     margin: 5,
   },
 
   cardText: {
-    fontSize: 16,
-  },
-
-  addressText: {
-    fontSize: 16,
-    fontStyle: 'italic',
+    fontSize: 20,
   },
 
   cardLink: {
     color: 'blue',
-    fontSize : 16,
+    fontSize : 20,
+    textDecorationLine: 'underline',
     marginLeft : 5,
   },
 
   SectionListButtonStyle: {
-    padding: 10,
-    marginBottom: 0,
-    borderBottomRightRadius: 15,
-    borderBottomLeftRadius: 15,
+    padding: 5,
+    marginLeft: 5,
+    marginRight: 5,
+    marginBottom: 5,
+    flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-around',
     backgroundColor : '#FFF',
-
+    justifyContent: 'center',
   },
 
   cardButtonStyle: {
-    margin: 0,
-  },
+    margin: 15,
+  }
 
 });
 

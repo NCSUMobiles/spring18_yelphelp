@@ -1,3 +1,10 @@
+## Yelp Help
+
+**Yelp Help** is a lightweight mobile application that hopes to simplify the frustrating experience of trying to find a restaurant to eat at. In the modern world, the task of making a decision on where to grab a bite to eat can become overwhelming. There are so many options, and an abuncance of information on all of these options is readily available at our fingertips through our smartphones. Sometimes, we want the work done for us. With the Yelp Help application, the user is provided with a single randomized restaurant (per request) from a list of the 50 best eating establishments in the area. Once that user gets a restaurant result, that user can look at its Yelp rating, see its pricing, get directions there, or call the business directly. The user can then favorite a restaurant they liked and see previously favorited restaurants in an organized and easily accessible list. 
+
+The application works using Yelp’s public Fusion API, where the back-end will pull a JSON list of 50 restaurants using a REST API call. The code then runs a randomization algorithm where the program will choose a singular random business to display to the user. Whenever the user favorites a restaurant, the application will save that business’ data locally onto the phone’s storage device. This way when the user leaves the app and comes back they will still see their favorite restaurants. Finally, since the app is built with React Native, it is compatible across platforms on both iOS and Android.
+
+
 
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
@@ -27,6 +34,9 @@ Below you'll find information about performing common tasks. The most recent ver
   * [Networking](#networking)
   * [iOS Simulator won't open](#ios-simulator-wont-open)
   * [QR Code does not scan](#qr-code-does-not-scan)
+* [Yelp Help Screenshots](#yelp-help-screenshots)
+  * [iOS Application Screenshots](#ios-application-screenshots)
+  * [Android Application Screenshots](#android-applicaiton-screenshots)
 
 ## Updating to New Releases
 
@@ -160,7 +170,7 @@ $ exp publish
 
 ### Building an Expo "standalone" app
 
-You can also use a service like [Expo's standalone builds](https://docs.expo.io/versions/latest/guides/building-standalone-apps.html) if you want to get an IPA/APK for distribution without having to build the native code yourself.
+ onaYou can also use a service like [Expo's standalone builds](https://docs.expo.io/versions/latest/guides/building-standalone-apps.html) if you want to get an IPA/APK for distribution without having to build the native code yourself.
 
 ### Ejecting from Create React Native App
 
@@ -216,6 +226,26 @@ There are a few steps you may want to take to troubleshoot these kinds of errors
 
 ### QR Code does not scan
 
-If you're not able to scan the QR code, make sure your phone's camera is focusing correctly, and also make sure that the contrast on the two colors in your terminal is high enough. For example, WebStorm's default themes may [not have enough contrast](https://github.com/react-community/create-react-native-app/issues/49) for terminal QR codes to be scannable with the system barcode scanners that the Expo app uses.
+If you're not able to scan the QR code, make sure your phone's camera is focusing correctly on a clear, unobstructed QR code image, and also make sure that the contrast on the two colors in your terminal is high enough. For example, WebStorm's default themes may [not have enough contrast](https://github.com/react-community/create-react-native-app/issues/49) for terminal QR codes to be scannable with the system barcode scanners that the Expo app uses.
 
 If this causes problems for you, you may want to try changing your terminal's color theme to have more contrast, or running Create React Native App from a different terminal. You can also manually enter the URL printed by the packager script in the Expo app's search bar to load it manually.
+
+## Yelp Help Screenshots
+
+Included here are some screenshots from the Yelp Help application. 
+
+### iOS Application Screenshots
+
+The first set of images show the home screen, action screen, and favorites screen for the iOS version of the app.
+
+![yelphelphomeios](https://user-images.githubusercontent.com/35307498/39610649-e54440ba-4f1f-11e8-8724-6d2b753fa4aa.png)
+
+![yelphelpwheelios](https://user-images.githubusercontent.com/35307498/39610804-da4ae9c4-4f20-11e8-9584-1ab73d675798.jpeg)
+
+![yelphelpresultios](https://user-images.githubusercontent.com/35307498/39610807-e1008562-4f20-11e8-9f0d-0ce0b8ccc975.jpeg)
+
+![yelphelpfavesios](https://user-images.githubusercontent.com/35307498/39610811-e805239a-4f20-11e8-91ec-009e1ff94ee0.jpeg)
+
+### Android Application Screenshots
+
+The next set of images show the same application screens for the Android version of the Yelp Help app.
