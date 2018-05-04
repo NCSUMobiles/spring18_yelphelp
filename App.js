@@ -59,7 +59,7 @@ const AppNavigator = TabNavigator({
                   }},
     MySuggestions: { screen: MySuggestions,
 					       navigationOptions: {
-					            title: "My Suggestions",
+					            title: "My Favorites",
                       tabBarIcon: <Image source={require('./img/historyIcon3.png')}/>,
 					}},
 }, TabBarOptions);
