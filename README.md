@@ -5,8 +5,40 @@
 The application works using Yelp’s public Fusion API, where the back-end will pull a JSON list of 50 restaurants using a REST API call. The code then runs a randomization algorithm where the program will choose a singular random business to display to the user. Whenever the user favorites a restaurant, the application will save that business’ data locally onto the phone’s storage device. This way when the user leaves the app and comes back they will still see their favorite restaurants. Finally, since the app is built with React Native, it is compatible across platforms on both iOS and Android.
 
 
-
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
+
+## Instalation Guide
+
+1. Install Node - https://nodejs.org/en/download/
+2. Install Yarn - https://yarnpkg.com/lang/en/docs/install/#mac-stable
+3. Download Expo client on your phone - https://expo.io/tools
+
+In the project root directory, run:
+```
+npm install
+```
+then run:
+```
+yarn install
+```
+After installing everything, run
+```
+yarn start
+```
+
+After that, you will be given a QR code to scan with your phone's expo app.  Scan it, and Yelp Help will run!
+
+### Application Screenshots
+
+The first set of images show the home screen, action screen, and favorites screen for the iOS version of the app.
+
+![yelphelphomeios](https://user-images.githubusercontent.com/35307498/39610649-e54440ba-4f1f-11e8-8724-6d2b753fa4aa.png){:height="50%" width="50%"}
+
+![yelphelpwheelios](https://user-images.githubusercontent.com/35307498/39610804-da4ae9c4-4f20-11e8-9584-1ab73d675798.jpeg)
+
+![yelphelpresultios](https://user-images.githubusercontent.com/35307498/39610807-e1008562-4f20-11e8-9f0d-0ce0b8ccc975.jpeg)
+
+![yelphelpfavesios](https://user-images.githubusercontent.com/35307498/39610811-e805239a-4f20-11e8-91ec-009e1ff94ee0.jpeg)
 
 Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
 
@@ -234,17 +266,7 @@ If this causes problems for you, you may want to try changing your terminal's co
 
 Included here are some screenshots from the Yelp Help application. 
 
-### iOS Application Screenshots
 
-The first set of images show the home screen, action screen, and favorites screen for the iOS version of the app.
-
-![yelphelphomeios](https://user-images.githubusercontent.com/35307498/39610649-e54440ba-4f1f-11e8-8724-6d2b753fa4aa.png)
-
-![yelphelpwheelios](https://user-images.githubusercontent.com/35307498/39610804-da4ae9c4-4f20-11e8-9584-1ab73d675798.jpeg)
-
-![yelphelpresultios](https://user-images.githubusercontent.com/35307498/39610807-e1008562-4f20-11e8-9f0d-0ce0b8ccc975.jpeg)
-
-![yelphelpfavesios](https://user-images.githubusercontent.com/35307498/39610811-e805239a-4f20-11e8-91ec-009e1ff94ee0.jpeg)
 
 ### Android Application Screenshots
 
