@@ -12,6 +12,7 @@ This project was bootstrapped with [Create React Native App](https://github.com/
 1. Install Node - https://nodejs.org/en/download/
 2. Install Yarn - https://yarnpkg.com/lang/en/docs/install/#mac-stable
 3. Download Expo client on your phone - https://expo.io/tools
+4. Clone this repo
 
 In the project root directory, run:
 ```
