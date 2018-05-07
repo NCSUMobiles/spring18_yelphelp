@@ -38,7 +38,7 @@ After that, you will be given a QR code to scan with your phone's expo app.  Sca
 6. Click "Open existing application" and then choose folder where repo was cloned
 7. If project does not start running automatically choose the project under "My Projects" to make it run server
 8. Open iPhone app, click profile tab, and login Expo account
-9. In the projects tab, you should see an entry under "Recently under development" as long as the Expo XDE project is running
+9. In the projects tab, you should see an entry under "Recently under development" as long as the Expo XDE project is running on your computer
 10. Click on that entry to launch app
 
 
