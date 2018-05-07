@@ -7,7 +7,7 @@ The application works using Yelp’s public Fusion API, where the back-end will 
 
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
-## Instalation Guide
+## Android Instalation Guide
 
 1. Install Node - https://nodejs.org/en/download/
 2. Install Yarn - https://yarnpkg.com/lang/en/docs/install/#mac-stable
@@ -28,6 +28,18 @@ yarn start
 ```
 
 After that, you will be given a QR code to scan with your phone's expo app.  Scan it, and Yelp Help will run!
+
+## iOS Installation Guide
+1. Download Expo client on your iPhone - https://expo.io/tools
+2. Download Expo XDE desktop application on your computer - https://github.com/expo/xde/releases
+3. Sign up for Expo account - https://expo.io/signup
+4. Login into your Expo account on Expo XDE application on your computer
+5. Clone this repo
+6. Click "Open existing application" and then choose folder where repo was cloned
+7. Open iPhone app, click profile tab, and login Expo account
+8. In the projects tab, you should see an entry under "Recently under development" as long as the Expo XDE project is running
+9. Click on that entry to launch app
+
 
 ### Application Screenshots
 
